@@ -59,9 +59,9 @@ export default async function MapPage({ searchParams }: MapPageProps) {
         <div className="quest-card p-5 sm:p-6">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500">Avatar</p>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500">Profile avatar</p>
               <h2 className="mt-2 text-2xl font-black text-slate-800">
-                {selectedAvatar ? selectedAvatar.name : "Choose your guide"}
+                {selectedAvatar ? selectedAvatar.name : "Guest adventurer"}
               </h2>
             </div>
             <div className="rounded-[24px] bg-gradient-to-br from-amber-50 via-orange-50 to-emerald-50 px-5 py-4 text-5xl shadow-inner">
@@ -71,10 +71,10 @@ export default async function MapPage({ searchParams }: MapPageProps) {
           <p className="mt-4 text-sm leading-6 text-slate-600">
             {selectedAvatar
               ? selectedAvatar.description
-              : "Pick an avatar first so the map feels like your own learning journey."}
+              : "You can explore the app without an avatar. Later, signed-in learners can choose and change one from their profile."}
           </p>
           <Link href="/avatar" className="quest-button-secondary mt-5 w-full">
-            {selectedAvatar ? "Change avatar" : "Choose avatar"}
+            {selectedAvatar ? "Change avatar" : "Open avatar settings"}
           </Link>
         </div>
 
@@ -87,7 +87,7 @@ export default async function MapPage({ searchParams }: MapPageProps) {
             <div className="quest-chip quest-chip-gem">💎 Reward path</div>
           </div>
           <p className="mt-4 text-slate-600">
-            Explore the grammar worlds in order, or jump into the first ready lesson inside Articles.
+            Explore the grammar worlds in order, or jump into the first ready lesson inside Articles. Avatar choice is optional and behaves like a profile setting, not a required onboarding step.
           </p>
         </div>
       </section>

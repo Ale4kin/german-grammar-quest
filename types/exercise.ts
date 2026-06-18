@@ -1,10 +1,19 @@
 export type ExerciseDifficulty = "A1";
+export type ExerciseType =
+  | "pronoun-choice"
+  | "article-choice"
+  | "case-form"
+  | "phrase-choice"
+  | "question-word"
+  | "ending-choice";
 
 export type Exercise = {
   id: string;
   lessonId: string;
+  type?: ExerciseType;
   prompt: string;
   noun: string;
+  supportText?: string;
   options: string[];
   correctAnswer: string;
   hint: string;

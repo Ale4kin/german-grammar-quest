@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { getExercisesByLesson } from "@/lib/game";
 
 type ResultPageProps = {
   searchParams: Promise<{
+    lessonId?: string;
     gems?: string;
     correct?: string;
     total?: string;
@@ -12,7 +14,10 @@ type ResultPageProps = {
 };
 
 export default async function ResultPage({ searchParams }: ResultPageProps) {
-  const { gems, correct, total, streak, bestStreak, hints } = await searchParams;
+  const { lessonId, gems, correct, total, streak, bestStreak, hints } = await searchParams;
+
+  const replayExerciseId = lessonId ? getExercisesByLesson(lessonId)[0]?.id : undefined;
+  const replayHref = replayExerciseId ? `/exercise/${replayExerciseId}` : "/map";
 
   const summary = {
     gems: Number(gems ?? 0),
@@ -60,7 +65,7 @@ export default async function ResultPage({ searchParams }: ResultPageProps) {
 
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
-            href="/exercise/ex-001"
+            href={replayHref}
             className="quest-button-primary"
           >
             Play again

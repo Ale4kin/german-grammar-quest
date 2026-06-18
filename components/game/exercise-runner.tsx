@@ -26,6 +26,7 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
   const roundIndex = currentIndex - initialIndex;
   const currentResult = results[roundIndex];
   const hasAnswered = Boolean(currentResult);
+  const exerciseType = currentExercise.type ?? "article-choice";
 
   const progress = useMemo(() => {
     const lessonId = exercises[0]?.lessonId ?? "a1-articles";
@@ -80,7 +81,7 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
       const bestStreak = results.reduce((best, result) => Math.max(best, result.streakAfterAnswer), 0);
 
       router.push(
-        `/result?gems=${nextProgress.gems}&correct=${nextProgress.correctAnswers}&total=${exercises.length}&streak=${nextProgress.streak}&bestStreak=${bestStreak}&hints=${nextProgress.hintUses}`,
+        `/result?lessonId=${currentExercise.lessonId}&gems=${nextProgress.gems}&correct=${nextProgress.correctAnswers}&total=${exercises.length}&streak=${nextProgress.streak}&bestStreak=${bestStreak}&hints=${nextProgress.hintUses}`,
       );
       return;
     }
@@ -130,11 +131,48 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
     return {
       title: "Wrong answer",
       toneClass: "border-rose-200 bg-rose-50/80",
-      summary: `The correct answer is ${currentExercise.correctAnswer}. Try to remember the full pair: ${currentExercise.correctAnswer} ${currentExercise.noun}.`,
+      summary: `The correct answer is ${currentExercise.correctAnswer}. Try to remember the full form that fits this situation.`,
     };
   }
 
   const feedbackContent = getFeedbackContent();
+
+  function getExerciseTypeMeta() {
+    switch (exerciseType) {
+      case "pronoun-choice":
+        return {
+          badge: "Pronoun choice",
+          helper: "Choose the pronoun that replaces the noun correctly.",
+        };
+      case "case-form":
+        return {
+          badge: "Case form",
+          helper: "Choose the form that matches the noun's role in the sentence.",
+        };
+      case "phrase-choice":
+        return {
+          badge: "Phrase choice",
+          helper: "Choose the full phrase that fits the grammar and the situation.",
+        };
+      case "question-word":
+        return {
+          badge: "Question word",
+          helper: "Choose the question word that matches the case.",
+        };
+      case "ending-choice":
+        return {
+          badge: "Ending choice",
+          helper: "Choose the ending that completes the noun form correctly.",
+        };
+      default:
+        return {
+          badge: "Article choice",
+          helper: "Choose the article that fits this noun or sentence.",
+        };
+    }
+  }
+
+  const exerciseTypeMeta = getExerciseTypeMeta();
 
   return (
     <main className="quest-page">
@@ -166,11 +204,19 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
       <section className="quest-content quest-card overflow-hidden p-5 sm:p-7">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-slate-500">Noun card</p>
+            <p className="text-sm font-bold uppercase tracking-[0.22em] text-slate-500">Challenge</p>
+            <p className="mt-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-slate-600">
+              {exerciseTypeMeta.badge}
+            </p>
+            {currentExercise.supportText ? (
+              <p className="mt-3 text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
+                Context: {currentExercise.supportText}
+              </p>
+            ) : null}
             <p className="mt-3 text-4xl font-black text-slate-800 sm:text-5xl">{currentExercise.noun}</p>
           </div>
           <div className="rounded-[24px] bg-gradient-to-br from-amber-100 via-orange-100 to-emerald-100 px-5 py-4 text-sm font-bold text-slate-700 shadow-inner">
-            Choose the article that fits this traveler.
+            {exerciseTypeMeta.helper}
           </div>
         </div>
 

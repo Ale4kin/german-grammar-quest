@@ -41,10 +41,11 @@ export default async function LessonPage({ params }: LessonPageProps) {
           <div className="mt-6 rounded-[24px] bg-white/72 p-5">
             <p className="text-sm font-bold uppercase tracking-[0.22em] text-slate-500">Quick rule</p>
             <h3 className="mt-2 text-xl font-black text-slate-800">{lesson.grammarRuleTitle}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-600">{lesson.grammarRuleSummary}</p>
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               {lesson.grammarRuleExamples.map((example) => (
                 <div
-                  key={example.article}
+                  key={`${example.article}-${example.example}`}
                   className={
                     example.article === "der"
                       ? "rounded-[20px] bg-emerald-50 p-4"
@@ -69,6 +70,16 @@ export default async function LessonPage({ params }: LessonPageProps) {
                 </div>
               ))}
             </div>
+            {lesson.grammarNotes?.length ? (
+              <div className="mt-4 rounded-[20px] bg-white/70 p-4">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">When to use it</p>
+                <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                  {lesson.grammarNotes.map((note) => (
+                    <li key={note}>• {note}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
             <p className="mt-4 text-sm leading-6 text-slate-600">{lesson.learningTip}</p>
           </div>
           <div className="mt-6 quest-progress-track">
@@ -95,7 +106,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
             <div className="rounded-[22px] bg-white/70 p-4">
               <p className="text-sm text-slate-500">What to do</p>
               <p className="mt-1 text-base font-bold leading-6 text-slate-800">
-                Read the noun, choose the article, use a hint only if needed.
+                Start with simple noun choices, then move into short sentence contexts and usage rules.
               </p>
             </div>
             <div className="rounded-[22px] bg-white/70 p-4">

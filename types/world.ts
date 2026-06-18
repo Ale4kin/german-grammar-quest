@@ -30,5 +30,6 @@ export type Lesson = {
     label: string;
     example: string;
   }[];
+  grammarNotes?: string[];
   learningTip: string;
 };

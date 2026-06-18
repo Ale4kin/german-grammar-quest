@@ -15,15 +15,15 @@ export default function LandingPage() {
           <div className="space-y-4">
             <h1 className="quest-title">Explore German grammar as a world-by-world adventure.</h1>
             <p className="quest-subtitle max-w-2xl">
-              Travel through Articles, Nouns, Pronouns, Prepositions, Adjectives, and Verbs with avatars, lessons, hints, and gem-based progress.
+              Travel through Articles, Nouns, Pronouns, Prepositions, Adjectives, and Verbs with lessons, hints, and gem-based progress.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/avatar" className="quest-button-primary">
-              Begin the quest
+            <Link href="/map" className="quest-button-primary">
+              Open the app
             </Link>
-            <Link href="/map" className="quest-button-secondary">
-              View map
+            <Link href="/avatar" className="quest-button-secondary">
+              Preview avatars
             </Link>
           </div>
         </div>
@@ -63,7 +63,7 @@ export default function LandingPage() {
             <div className="rounded-[24px] bg-white/72 p-4">
               <div className="flex items-center justify-between text-sm font-semibold text-slate-600">
                 <span>Current flow</span>
-                <span>Avatar → Map → Lesson</span>
+                <span>Map → Lesson → Exercise</span>
               </div>
               <div className="quest-progress-track mt-3">
                 <div className="quest-progress-fill w-full" />
