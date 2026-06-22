@@ -1,5 +1,8 @@
 import { mockCountries } from "@/data/countries";
-import { getExerciseById as getTopicExerciseById, getExercisesByLesson as getTopicExercisesByLesson } from "@/data/exercises/topics";
+import {
+  getExerciseById as getTopicExerciseById,
+  getExercisesByLesson as getTopicExercisesByLesson,
+} from "@/data/exercises/topics";
 import { mockKingdoms } from "@/data/kingdoms";
 import { mockLessons } from "@/data/lessons";
 import { rewardRules } from "@/data/reward-rules";
@@ -49,7 +52,11 @@ export function createInitialProgress(): GameProgress {
   };
 }
 
-export function scoreAnswer(isCorrect: boolean, usedHint: boolean, nextStreak: number) {
+export function scoreAnswer(
+  isCorrect: boolean,
+  usedHint: boolean,
+  nextStreak: number,
+) {
   if (!isCorrect) {
     return {
       gemsEarned: rewardRules.wrongAnswerGems,
@@ -57,9 +64,13 @@ export function scoreAnswer(isCorrect: boolean, usedHint: boolean, nextStreak: n
     };
   }
 
-  const gemsEarned = usedHint ? rewardRules.correctWithHintGems : rewardRules.correctWithoutHintGems;
+  const gemsEarned = usedHint
+    ? rewardRules.correctWithHintGems
+    : rewardRules.correctWithoutHintGems;
   const bonusGemsEarned =
-    nextStreak > 0 && nextStreak % rewardRules.streakBonusThreshold === 0 ? rewardRules.streakBonusGems : 0;
+    nextStreak > 0 && nextStreak % rewardRules.streakBonusThreshold === 0
+      ? rewardRules.streakBonusGems
+      : 0;
 
   return {
     gemsEarned,
@@ -67,7 +78,10 @@ export function scoreAnswer(isCorrect: boolean, usedHint: boolean, nextStreak: n
   };
 }
 
-export function buildProgressFromResults(results: ExerciseRoundResult[], lessonId: string): GameProgress {
+export function buildProgressFromResults(
+  results: ExerciseRoundResult[],
+  lessonId: string,
+): GameProgress {
   const lesson = getLessonById(lessonId);
 
   return results.reduce(
@@ -77,7 +91,10 @@ export function buildProgressFromResults(results: ExerciseRoundResult[], lessonI
         activeKingdomId: lesson?.kingdomId ?? progress.activeKingdomId,
         activeCountryId: lesson?.countryId ?? progress.activeCountryId,
         currentLessonId: lessonId,
-        completedExerciseIds: [...progress.completedExerciseIds, result.exerciseId],
+        completedExerciseIds: [
+          ...progress.completedExerciseIds,
+          result.exerciseId,
+        ],
         gems: progress.gems + result.gemsEarned + result.bonusGemsEarned,
         streak: result.streakAfterAnswer,
         correctAnswers: progress.correctAnswers + (result.isCorrect ? 1 : 0),
