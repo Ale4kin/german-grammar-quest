@@ -27,10 +27,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
   return (
     <main className="quest-page">
       <header className="quest-content space-y-4">
-        <div className="flex flex-wrap gap-3">
-          <span className="quest-chip">Step 3</span>
-          <span className="quest-chip">Lesson camp</span>
-        </div>
         <h1 className="quest-title text-4xl sm:text-5xl">Lesson overview</h1>
       </header>
 
