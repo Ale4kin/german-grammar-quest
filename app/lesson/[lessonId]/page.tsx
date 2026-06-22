@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { mockExercises } from "@/data/exercises";
+import { getExercisesByLesson } from "@/data/exercises/topics";
 import { mockLessons } from "@/data/lessons";
 
 type LessonPageProps = {
@@ -12,12 +12,12 @@ type LessonPageProps = {
 export default async function LessonPage({ params }: LessonPageProps) {
   const { lessonId } = await params;
   const lesson = mockLessons.find((entry) => entry.id === lessonId);
-  const lessonExercises = mockExercises.filter((exercise) => exercise.lessonId === lessonId);
 
   if (!lesson) {
     notFound();
   }
 
+  const lessonExercises = getExercisesByLesson(lessonId);
   const isArticleLesson = lesson.kingdomId === "articles";
   const exampleGridClass =
     lesson.grammarRuleExamples.length > 6 ? "mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3" : "mt-4 grid gap-3 sm:grid-cols-3";

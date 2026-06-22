@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { mockExercises } from "@/data/exercises";
+import { topicsMockExercises } from "@/data/exercises/topics";
 import { mockKingdoms } from "@/data/kingdoms";
 import { mockLessons } from "@/data/lessons";
 
@@ -10,7 +10,7 @@ export default function LandingPage() {
         <div className="space-y-6">
           <div className="flex flex-wrap gap-3">
             <span className="quest-chip">Fantasy Grammar Adventure</span>
-            <span className="quest-chip quest-chip-gem">💎 {mockExercises.length * 15}+ gems to collect</span>
+            <span className="quest-chip quest-chip-gem">💎 {topicsMockExercises.length * 15}+ gems to collect</span>
           </div>
           <div className="space-y-4">
             <h1 className="quest-title">Explore German grammar as a world-by-world adventure.</h1>
@@ -55,7 +55,7 @@ export default function LandingPage() {
               <div className="rounded-[24px] bg-white/80 p-4 sm:col-span-2">
                 <p className="text-sm text-slate-500">Current playable pack</p>
                 <p className="mt-1 text-lg font-bold text-slate-800">
-                  {mockExercises.length} exercise{mockExercises.length === 1 ? "" : "s"} in the first Articles lesson
+                  {topicsMockExercises.length} exercise{topicsMockExercises.length === 1 ? "" : "s"} in the first Articles lesson
                 </p>
               </div>
             </div>

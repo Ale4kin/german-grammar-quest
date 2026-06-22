@@ -1,5 +1,5 @@
 import { mockCountries } from "@/data/countries";
-import { mockExercises } from "@/data/exercises";
+import { getExerciseById as getTopicExerciseById, getExercisesByLesson as getTopicExercisesByLesson } from "@/data/exercises/topics";
 import { mockKingdoms } from "@/data/kingdoms";
 import { mockLessons } from "@/data/lessons";
 import { rewardRules } from "@/data/reward-rules";
@@ -25,11 +25,11 @@ export function getLessonById(lessonId: string): Lesson | undefined {
 }
 
 export function getExerciseById(exerciseId: string): Exercise | undefined {
-  return mockExercises.find((exercise) => exercise.id === exerciseId);
+  return getTopicExerciseById(exerciseId);
 }
 
 export function getExercisesByLesson(lessonId: string): Exercise[] {
-  return mockExercises.filter((exercise) => exercise.lessonId === lessonId);
+  return getTopicExercisesByLesson(lessonId);
 }
 
 export function createInitialProgress(): GameProgress {
