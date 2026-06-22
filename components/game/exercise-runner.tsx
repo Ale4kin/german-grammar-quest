@@ -144,6 +144,11 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
           badge: "Pronoun choice",
           helper: "Choose the pronoun that replaces the noun correctly.",
         };
+      case "possessive-choice":
+        return {
+          badge: "Possessive choice",
+          helper: "Choose the possessive form that matches the owner and the noun.",
+        };
       case "case-form":
         return {
           badge: "Case form",

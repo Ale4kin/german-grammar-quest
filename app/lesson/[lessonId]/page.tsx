@@ -18,6 +18,10 @@ export default async function LessonPage({ params }: LessonPageProps) {
     notFound();
   }
 
+  const isArticleLesson = lesson.kingdomId === "articles";
+  const exampleGridClass =
+    lesson.grammarRuleExamples.length > 6 ? "mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3" : "mt-4 grid gap-3 sm:grid-cols-3";
+
   return (
     <main className="quest-page">
       <header className="quest-content space-y-4">
@@ -26,9 +30,6 @@ export default async function LessonPage({ params }: LessonPageProps) {
           <span className="quest-chip">Lesson camp</span>
         </div>
         <h1 className="quest-title text-4xl sm:text-5xl">Lesson overview</h1>
-        <p className="quest-subtitle">
-          Lesson id: <span className="font-mono">{lessonId}</span>
-        </p>
       </header>
 
       <section className="quest-content grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
@@ -36,31 +37,31 @@ export default async function LessonPage({ params }: LessonPageProps) {
           <p className="text-sm font-bold uppercase tracking-[0.22em] text-slate-500">Chapter focus</p>
           <h2 className="mt-3 text-3xl font-black text-slate-800">{lesson.title}</h2>
           <p className="mt-3 max-w-xl text-slate-600">
-            This lesson contains {lessonExercises.length} exercise{lessonExercises.length === 1 ? "" : "s"} with short noun prompts, hints, and gem rewards.
+            This lesson contains {lessonExercises.length} exercise{lessonExercises.length === 1 ? "" : "s"} with short prompts, hints, and gem rewards.
           </p>
           <div className="mt-6 rounded-[24px] bg-white/72 p-5">
             <p className="text-sm font-bold uppercase tracking-[0.22em] text-slate-500">Quick rule</p>
             <h3 className="mt-2 text-xl font-black text-slate-800">{lesson.grammarRuleTitle}</h3>
             <p className="mt-3 text-sm leading-6 text-slate-600">{lesson.grammarRuleSummary}</p>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <div className={exampleGridClass}>
               {lesson.grammarRuleExamples.map((example) => (
                 <div
                   key={`${example.article}-${example.example}`}
                   className={
-                    example.article === "der"
+                    isArticleLesson && example.article === "der"
                       ? "rounded-[20px] bg-emerald-50 p-4"
-                      : example.article === "die"
+                      : isArticleLesson && example.article === "die"
                         ? "rounded-[20px] bg-rose-50 p-4"
-                        : "rounded-[20px] bg-amber-50 p-4"
+                        : "rounded-[20px] border border-amber-100 bg-amber-50/85 p-4"
                   }
                 >
                   <p
                     className={
-                      example.article === "der"
+                      isArticleLesson && example.article === "der"
                         ? "text-sm font-bold text-emerald-800"
-                        : example.article === "die"
+                        : isArticleLesson && example.article === "die"
                           ? "text-sm font-bold text-rose-800"
-                          : "text-sm font-bold text-amber-800"
+                          : "text-sm font-bold text-amber-900"
                     }
                   >
                     {example.article}
@@ -106,7 +107,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
             <div className="rounded-[22px] bg-white/70 p-4">
               <p className="text-sm text-slate-500">What to do</p>
               <p className="mt-1 text-base font-bold leading-6 text-slate-800">
-                Start with simple noun choices, then move into short sentence contexts and usage rules.
+                Start with core form patterns, then move into short sentence contexts and usage rules.
               </p>
             </div>
             <div className="rounded-[22px] bg-white/70 p-4">

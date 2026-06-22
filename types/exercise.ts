@@ -1,6 +1,7 @@
 export type ExerciseDifficulty = "A1";
 export type ExerciseType =
   | "pronoun-choice"
+  | "possessive-choice"
   | "article-choice"
   | "case-form"
   | "phrase-choice"
