@@ -13,6 +13,9 @@ export default function LandingPage() {
             <span className="quest-chip quest-chip-gem">
               💎 {topicsMockExercises.length * 15}+ gems to collect
             </span>
+            <span className="quest-chip px-2.5 py-1 text-xs">
+              Collect gems to unlock avatars, badges, and reward chests.
+            </span>
           </div>
           <div className="space-y-4">
             <h1 className="quest-title">

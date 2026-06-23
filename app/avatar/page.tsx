@@ -27,13 +27,30 @@ export default function AvatarSelectionPage() {
             <p className="mt-2 text-sm leading-6 text-slate-600">{avatar.description}</p>
             <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-slate-600">
               <span className="quest-chip px-2.5 py-1 text-xs">Profile preview</span>
+              {avatar.cost && avatar.cost > 0 ? (
+                <span className="quest-chip quest-chip-gem px-2.5 py-1 text-xs">
+                  Unlock for {avatar.cost} gems
+                </span>
+              ) : (
+                <span className="quest-chip px-2.5 py-1 text-xs">Free</span>
+              )}
             </div>
-            <Link
-              href={`/map?avatar=${avatar.id}`}
-              className="quest-button-primary mt-5 w-full"
-            >
-              Use on map
-            </Link>
+            {avatar.cost && avatar.cost > 0 ? (
+              <button
+                type="button"
+                disabled
+                className="quest-button-secondary mt-5 w-full cursor-not-allowed opacity-70"
+              >
+                Use on map
+              </button>
+            ) : (
+              <Link
+                href={`/map?avatar=${avatar.id}`}
+                className="quest-button-primary mt-5 w-full"
+              >
+                Use on map
+              </Link>
+            )}
           </article>
         ))}
       </section>
