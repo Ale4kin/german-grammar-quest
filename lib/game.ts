@@ -13,6 +13,7 @@ import type {
   GameProgress,
   Kingdom,
   Lesson,
+  StreakMilestone,
 } from "@/types";
 
 export function getKingdomById(kingdomId: string): Kingdom | undefined {
@@ -76,6 +77,18 @@ export function scoreAnswer(
     gemsEarned,
     bonusGemsEarned,
   };
+}
+
+export function getUnlockedStreakMilestones(streak: number): StreakMilestone[] {
+  return rewardRules.streakMilestones.filter((milestone) => streak >= milestone.streak);
+}
+
+export function getNextStreakMilestone(streak: number): StreakMilestone | undefined {
+  return rewardRules.streakMilestones.find((milestone) => streak < milestone.streak);
+}
+
+export function getRemainingAnswersForMilestone(streak: number, targetStreak: number): number {
+  return Math.max(targetStreak - streak, 0);
 }
 
 export function buildProgressFromResults(
