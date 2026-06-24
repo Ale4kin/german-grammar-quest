@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { LessonCompletionChip } from "@/components/game/lesson-completion-chip";
+import { StatCard } from "@/components/ui/stat-card";
 import { getExercisesByLesson } from "@/data/exercises/topics";
-import { gameModes, getGameMode } from "@/data/game-modes";
-import { mockCountries } from "@/data/countries";
-import { mockKingdoms } from "@/data/kingdoms";
-import { mockLessons } from "@/data/lessons";
 import { rewardRules } from "@/data/reward-rules";
+import { getCountryById, getKingdomById, getLessonById } from "@/lib/game";
+import { resolveGameMode } from "@/lib/modes";
+import { buildExerciseHref } from "@/lib/routes";
 
 type LessonPageProps = {
   params: Promise<{
@@ -19,17 +20,17 @@ type LessonPageProps = {
 export default async function LessonPage({ params, searchParams }: LessonPageProps) {
   const { lessonId } = await params;
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
-  const lesson = mockLessons.find((entry) => entry.id === lessonId);
+  const lesson = getLessonById(lessonId);
 
   if (!lesson) {
     notFound();
   }
 
   const lessonExercises = getExercisesByLesson(lessonId);
-  const kingdom = mockKingdoms.find((entry) => entry.id === lesson.kingdomId);
-  const country = mockCountries.find((entry) => entry.id === lesson.countryId);
+  const kingdom = getKingdomById(lesson.kingdomId);
+  const country = getCountryById(lesson.countryId);
   const isArticleLesson = lesson.kingdomId === "articles";
-  const activeMode = getGameMode(resolvedSearchParams?.mode === "explorer" ? "explorer" : "explorer");
+  const activeMode = resolveGameMode(resolvedSearchParams?.mode);
   const exampleGridClass =
     lesson.grammarRuleExamples.length > 6
       ? "mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3"
@@ -40,7 +41,8 @@ export default async function LessonPage({ params, searchParams }: LessonPagePro
       <header className="quest-content grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="quest-card p-6 sm:p-7">
           <div className="flex flex-wrap gap-3">
-            <span className="quest-chip">Mode: {activeMode.name}</span>
+            <span className="quest-chip quest-chip-mode">Mode on: {activeMode.name}</span>
+            <LessonCompletionChip lessonId={lesson.id} />
             <span className="quest-chip">{kingdom?.name ?? "World"}</span>
             <span className="quest-chip">{country?.name ?? "Topic"}</span>
           </div>
@@ -49,22 +51,9 @@ export default async function LessonPage({ params, searchParams }: LessonPagePro
           <p className="mt-3 quest-subtitle max-w-2xl">{lesson.description}</p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Exercises</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">{lessonExercises.length}</p>
-            </div>
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Perfect answer</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">
-                +{rewardRules.correctWithoutHintGems}
-              </p>
-            </div>
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Streak bonus</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">
-                +{rewardRules.streakBonusGems}
-              </p>
-            </div>
+            <StatCard label="Exercises" value={lessonExercises.length} />
+            <StatCard label="Perfect answer" value={`+${rewardRules.correctWithoutHintGems}`} />
+            <StatCard label="Streak bonus" value={`+${rewardRules.streakBonusGems}`} />
           </div>
         </div>
 
@@ -96,7 +85,7 @@ export default async function LessonPage({ params, searchParams }: LessonPagePro
               Back to map
             </Link>
             {lessonExercises.length > 0 ? (
-              <Link href={`/exercise/${lessonExercises[0].id}?mode=${activeMode.id}`} className="quest-button-primary">
+              <Link href={buildExerciseHref(lessonExercises[0].id, activeMode.id)} className="quest-button-primary">
                 Start lesson
               </Link>
             ) : null}
@@ -152,43 +141,7 @@ export default async function LessonPage({ params, searchParams }: LessonPagePro
         </div>
 
         <aside className="quest-card p-6">
-          <p className="quest-kicker">Modes</p>
-          <h2 className="mt-3 quest-panel-title">Choose how the lesson feels</h2>
-          <div className="mt-4 grid gap-3">
-            {gameModes.map((mode) => (
-              <div
-                key={mode.id}
-                className={`rounded-[20px] p-4 ${
-                  mode.id === activeMode.id
-                    ? "border border-emerald-200 bg-emerald-50/80"
-                    : "border border-slate-200 bg-white/72"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-black text-slate-800">
-                    {mode.name}
-                    {mode.status === "coming-soon" ? " - coming soon" : ""}
-                  </p>
-                  <span className="quest-chip px-2.5 py-1 text-xs">
-                    {mode.status === "available" ? "Active now" : "Locked"}
-                  </span>
-                </div>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{mode.summary}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 rounded-[24px] bg-white/72 p-5">
-            <p className="quest-kicker">Explorer rules</p>
-            <p className="mt-3 text-sm leading-7 text-slate-600">{activeMode.tagline}</p>
-            <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
-              {activeMode.rules.map((rule) => (
-                <li key={rule}>• {rule}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="mt-6 rounded-[24px] bg-white/72 p-5">
+          <div className="rounded-[24px] bg-white/72 p-5">
             <p className="quest-kicker">Streak ladder</p>
             <div className="mt-4 space-y-3 text-sm font-semibold text-slate-700">
               {rewardRules.streakMilestones.map((milestone) => (

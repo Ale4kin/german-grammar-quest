@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { ExerciseRunner } from "@/components/game/exercise-runner";
-import type { GameModeId } from "@/types";
 import { getExerciseById, getExercisesByLesson } from "@/lib/game";
+import { resolveGameModeId } from "@/lib/modes";
 
 type ExercisePageProps = {
   params: Promise<{
@@ -22,7 +22,7 @@ export default async function ExercisePage({ params, searchParams }: ExercisePag
   }
 
   const lessonExercises = getExercisesByLesson(exercise.lessonId);
-  const modeId: GameModeId = resolvedSearchParams?.mode === "explorer" ? "explorer" : "explorer";
+  const modeId = resolveGameModeId(resolvedSearchParams?.mode);
 
   return <ExerciseRunner exercises={lessonExercises} initialExerciseId={exerciseId} modeId={modeId} />;
 }

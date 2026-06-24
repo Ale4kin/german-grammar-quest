@@ -1,9 +1,12 @@
 import Link from "next/link";
+import { ModeSelector } from "@/components/game/mode-selector";
+import { StatCard } from "@/components/ui/stat-card";
 import { gameModes, getGameMode } from "@/data/game-modes";
 import { topicsMockExercises } from "@/data/exercises/topics";
 import { mockKingdoms } from "@/data/kingdoms";
 import { mockLessons } from "@/data/lessons";
 import { rewardRules } from "@/data/reward-rules";
+import { buildLessonHref } from "@/lib/routes";
 
 const quickLinks = [
   {
@@ -53,56 +56,20 @@ export default function LandingPage() {
             <Link href="/map" className="quest-button-primary">
               Open study map
             </Link>
-            <Link href="/lesson/a1-articles?mode=explorer" className="quest-button-secondary">
+            <Link href={buildLessonHref("a1-articles")} className="quest-button-secondary">
               Jump to active lesson
             </Link>
           </div>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Worlds</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">
-                {mockKingdoms.length}
-              </p>
-            </div>
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Lessons</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">
-                {mockLessons.length}
-              </p>
-            </div>
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Playable exercises</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">
-                {topicsMockExercises.length}
-              </p>
-            </div>
+            <StatCard label="Worlds" value={mockKingdoms.length} />
+            <StatCard label="Lessons" value={mockLessons.length} />
+            <StatCard label="Playable exercises" value={topicsMockExercises.length} />
           </div>
         </div>
 
         <aside className="quest-card p-6">
-          <p className="quest-kicker">Mode system</p>
-          <h2 className="mt-3 quest-panel-title">Current playable mode</h2>
-          <div className="mt-5 grid gap-3">
-            <div className="quest-stat-card">
-              <p className="text-sm font-bold text-slate-800">Mode: {explorerMode.name}</p>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
-                {explorerMode.summary}
-              </p>
-            </div>
-            {gameModes
-              .filter((mode) => mode.id !== "explorer")
-              .map((mode) => (
-                <div key={mode.id} className="quest-stat-card">
-                  <p className="text-sm font-bold text-slate-800">
-                    {mode.name} - coming soon
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    {mode.summary}
-                  </p>
-                </div>
-              ))}
-          </div>
+          <ModeSelector activeModeId={explorerMode.id} modes={gameModes} />
         </aside>
       </section>
 

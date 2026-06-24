@@ -169,6 +169,12 @@ a {
     color: #8e3f51;
   }
 
+  .quest-chip-mode {
+    background: linear-gradient(180deg, #dbf4e6, #c7ecd9);
+    border-color: rgba(76, 122, 94, 0.24);
+    color: #29503c;
+  }
+
   .quest-title {
     @apply text-4xl font-black sm:text-5xl;
     color: #31455b;
@@ -207,6 +213,52 @@ a {
       linear-gradient(rgba(123, 143, 126, 0.08) 1px, transparent 1px),
       linear-gradient(90deg, rgba(123, 143, 126, 0.08) 1px, transparent 1px);
     background-size: 26px 26px;
+  }
+
+  .quest-mode-card {
+    @apply rounded-[20px] p-4 text-left transition;
+    border: 1px solid rgba(120, 144, 156, 0.14);
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .quest-mode-card-active {
+    border-color: rgba(76, 122, 94, 0.28);
+    background:
+      linear-gradient(180deg, rgba(224, 245, 232, 0.96), rgba(243, 251, 246, 0.9)),
+      rgba(255, 255, 255, 0.88);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.45),
+      0 12px 26px rgba(76, 122, 94, 0.12);
+  }
+
+  .quest-mode-card-locked {
+    background: rgba(255, 255, 255, 0.58);
+    border-style: dashed;
+  }
+
+  .quest-mode-card-preview {
+    transform: translateY(-1px);
+  }
+
+  .quest-mode-icon {
+    @apply flex h-10 w-10 items-center justify-center rounded-2xl text-xl;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  .quest-mode-status {
+    @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  .quest-mode-status-active {
+    background: rgba(76, 122, 94, 0.12);
+    color: #37614a;
+  }
+
+  .quest-mode-status-locked {
+    background: rgba(120, 144, 156, 0.12);
+    color: #617383;
   }
 
   .quest-button-primary:focus-visible,

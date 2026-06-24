@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StatCard } from "@/components/ui/stat-card";
 import { mockAvatars } from "@/data/avatars";
 
 export default function AvatarSelectionPage() {
@@ -19,20 +20,9 @@ export default function AvatarSelectionPage() {
         <aside className="quest-card p-6 sm:p-7">
           <p className="quest-kicker">Unlock overview</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Available now</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">{freeAvatars}</p>
-            </div>
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Locked</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">
-                {mockAvatars.length - freeAvatars}
-              </p>
-            </div>
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Total styles</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">{mockAvatars.length}</p>
-            </div>
+            <StatCard label="Available now" value={freeAvatars} />
+            <StatCard label="Locked" value={mockAvatars.length - freeAvatars} />
+            <StatCard label="Total styles" value={mockAvatars.length} />
           </div>
         </aside>
       </header>

@@ -1,9 +1,13 @@
 import Link from "next/link";
+import { MapCompletionView } from "@/components/game/map-completion-view";
+import { StatCard } from "@/components/ui/stat-card";
 import { mockAvatars } from "@/data/avatars";
 import { mockCountries } from "@/data/countries";
 import { getGameMode } from "@/data/game-modes";
 import { mockKingdoms } from "@/data/kingdoms";
 import { mockLessons } from "@/data/lessons";
+import { getLessonByCountryId } from "@/lib/game";
+import { buildLessonHref } from "@/lib/routes";
 
 const worldIcons: Record<string, string> = {
   articles: "📜",
@@ -22,7 +26,7 @@ const worldRoutes = mockKingdoms
       .filter((country) => country.kingdomId === kingdom.id)
       .sort((left, right) => left.sortOrder - right.sortOrder)
       .map((country) => {
-        const lesson = mockLessons.find((entry) => entry.countryId === country.id);
+        const lesson = getLessonByCountryId(country.id);
 
         return {
           ...country,
@@ -69,18 +73,9 @@ export default async function MapPage({ searchParams }: MapPageProps) {
           </div>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Worlds</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">{worldRoutes.length}</p>
-            </div>
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Topics</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">{totalTopics}</p>
-            </div>
-            <div className="quest-stat-card">
-              <p className="text-sm text-slate-500">Ready lessons</p>
-              <p className="mt-1 text-3xl font-black text-slate-800">{readyLessons}</p>
-            </div>
+            <StatCard label="Worlds" value={worldRoutes.length} />
+            <StatCard label="Topics" value={totalTopics} />
+            <StatCard label="Ready lessons" value={readyLessons} />
           </div>
         </div>
 
@@ -107,7 +102,7 @@ export default async function MapPage({ searchParams }: MapPageProps) {
             <Link href="/avatar" className="quest-button-secondary w-full">
               Manage avatar
             </Link>
-            <Link href="/lesson/a1-articles?mode=explorer" className="quest-button-primary w-full">
+            <Link href={buildLessonHref("a1-articles")} className="quest-button-primary w-full">
               Resume active lesson
             </Link>
           </div>
@@ -125,72 +120,7 @@ export default async function MapPage({ searchParams }: MapPageProps) {
           </p>
         </div>
 
-        <div className="mt-6 grid gap-4">
-          {worldRoutes.map((world) => (
-            <article key={world.id} className="quest-card p-5 sm:p-6">
-              <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
-                <div className="max-w-2xl">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-300 to-emerald-500 text-2xl shadow-md">
-                      {world.icon}
-                    </div>
-                    <div>
-                      <p className="quest-kicker">World {world.sortOrder}</p>
-                      <h3 className="text-2xl font-black text-slate-800">{world.name}</h3>
-                    </div>
-                  </div>
-                  <p className="mt-4 text-sm leading-6 text-slate-600">{world.description}</p>
-                </div>
-
-                <div className="grid min-w-[220px] gap-3 sm:grid-cols-2 xl:w-[260px] xl:grid-cols-1">
-                  <div className="quest-stat-card">
-                    <p className="text-sm text-slate-500">Topics in world</p>
-                    <p className="mt-1 text-2xl font-black text-slate-800">{world.countries.length}</p>
-                  </div>
-                  <div className="quest-stat-card">
-                    <p className="text-sm text-slate-500">Ready now</p>
-                    <p className="mt-1 text-2xl font-black text-slate-800">{world.readyTopics}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-5 grid gap-3 xl:grid-cols-2">
-                {world.countries.map((country) => (
-                  <div key={country.id} className="rounded-[24px] bg-white/78 p-4 shadow-sm">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-base font-black text-slate-800">{country.name}</p>
-                        <p className="mt-2 text-sm leading-6 text-slate-600">{country.description}</p>
-                      </div>
-                      <span className="quest-chip px-2.5 py-1 text-xs">
-                        {country.lesson ? "Ready" : "Soon"}
-                      </span>
-                    </div>
-
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      <span className="quest-chip px-2.5 py-1 text-xs">
-                        Order {country.sortOrder}
-                      </span>
-                      <span className="quest-chip px-2.5 py-1 text-xs">
-                        {country.lesson ? "Lesson ready" : "No lesson yet"}
-                      </span>
-                    </div>
-
-                    {country.lesson ? (
-                      <Link href={`/lesson/${country.lesson.id}?mode=explorer`} className="quest-button-primary mt-4 w-full">
-                        Open lesson
-                      </Link>
-                    ) : (
-                      <div className="mt-4 rounded-full border border-dashed border-slate-300 px-4 py-2 text-center text-sm font-semibold text-slate-500">
-                        Coming soon
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
+        <MapCompletionView worlds={worldRoutes} />
       </section>
     </main>
   );

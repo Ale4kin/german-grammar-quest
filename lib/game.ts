@@ -28,6 +28,10 @@ export function getLessonById(lessonId: string): Lesson | undefined {
   return mockLessons.find((lesson) => lesson.id === lessonId);
 }
 
+export function getLessonByCountryId(countryId: string): Lesson | undefined {
+  return mockLessons.find((lesson) => lesson.countryId === countryId);
+}
+
 export function getExerciseById(exerciseId: string): Exercise | undefined {
   return getTopicExerciseById(exerciseId);
 }

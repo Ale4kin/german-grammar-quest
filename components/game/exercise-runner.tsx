@@ -12,6 +12,7 @@ import {
   getUnlockedStreakMilestones,
   scoreAnswer,
 } from "@/lib/game";
+import { buildLessonHref, buildResultHref } from "@/lib/routes";
 import type { Exercise, ExerciseRoundResult, GameModeId } from "@/types";
 
 type ExerciseRunnerProps = {
@@ -97,9 +98,23 @@ export function ExerciseRunner({ exercises, initialExerciseId, modeId }: Exercis
         (best, result) => Math.max(best, result.streakAfterAnswer),
         0,
       );
+      const runId =
+        typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+          ? crypto.randomUUID()
+          : `${currentExercise.lessonId}-${Date.now()}`;
 
       router.push(
-        `/result?lessonId=${currentExercise.lessonId}&mode=${mode.id}&gems=${nextProgress.gems}&correct=${nextProgress.correctAnswers}&total=${exercises.length}&streak=${nextProgress.streak}&bestStreak=${bestStreak}&hints=${nextProgress.hintUses}`,
+        buildResultHref({
+          runId,
+          lessonId: currentExercise.lessonId,
+          modeId: mode.id,
+          gems: nextProgress.gems,
+          correct: nextProgress.correctAnswers,
+          total: exercises.length,
+          streak: nextProgress.streak,
+          bestStreak,
+          hints: nextProgress.hintUses,
+        }),
       );
       return;
     }
@@ -222,7 +237,7 @@ export function ExerciseRunner({ exercises, initialExerciseId, modeId }: Exercis
                 {lesson?.title ?? "Grammar encounter"}
               </h1>
             </div>
-            <Link href={`/lesson/${currentExercise.lessonId}?mode=${mode.id}`} className="quest-button-secondary">
+            <Link href={buildLessonHref(currentExercise.lessonId, mode.id)} className="quest-button-secondary">
               Exit to lesson
             </Link>
           </div>
