@@ -1,3 +1,6 @@
+import type { GameModeId } from "@/types/game-mode";
+import type { KingdomTrophyTier, LessonRank } from "@/types/game-systems";
+
 export type GameProgress = {
   selectedAvatarId: string | null;
   activeKingdomId: string | null;
@@ -18,7 +21,23 @@ export type LessonBestScore = {
   bestStreak: number;
   fewestHints: number;
   bestGems: number;
+  bestRank: LessonRank;
   lastCompletedAt: string | null;
+};
+
+export type LessonResultEntry = {
+  runId: string;
+  lessonId: string;
+  completedAt: string;
+  accuracy: number;
+  correctCount: number;
+  totalQuestions: number;
+  hintCount: number;
+  bestStreak: number;
+  perfectRun: boolean;
+  firstTryCount: number;
+  totalGemsEarned: number;
+  modeUsed: GameModeId;
 };
 
 export type KingdomProgress = {
@@ -27,7 +46,10 @@ export type KingdomProgress = {
   completedLessons: number;
   completedLessonIds: string[];
   isCompleted: boolean;
+  trophyTier: KingdomTrophyTier;
+  allLessonsGold: boolean;
   completedAt: string | null;
+  goldCompletedAt: string | null;
 };
 
 export type UnlockedReward = {
@@ -51,7 +73,7 @@ export type DailyQuestState = {
 };
 
 export type WeaknessStat = {
-  topicId: string;
+  skillId: string;
   totalAnswers: number;
   incorrectAnswers: number;
   hintUses: number;
@@ -75,9 +97,10 @@ export type PlayerProgress = {
   currentLessonId: string | null;
   completedLessonIds: string[];
   completedExerciseIds: string[];
+  lessonResults: LessonResultEntry[];
   lessonBestScores: Record<string, LessonBestScore>;
   kingdomProgress: Record<string, KingdomProgress>;
-  processedRunIds: string[];
+  processedEventIds: string[];
   gems: number;
   xp: number;
   level: number;

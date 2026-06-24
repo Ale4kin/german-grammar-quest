@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LessonCompletionChip } from "@/components/game/lesson-completion-chip";
+import { LessonRankChip } from "@/components/game/lesson-rank-chip";
 import { StatCard } from "@/components/ui/stat-card";
+import { rewardRules } from "@/data/game-rules";
 import { getExercisesByLesson } from "@/data/exercises/topics";
-import { rewardRules } from "@/data/reward-rules";
-import { getCountryById, getKingdomById, getLessonById } from "@/lib/game";
-import { resolveGameMode } from "@/lib/modes";
-import { buildExerciseHref } from "@/lib/routes";
+import { getCountryById, getKingdomById, getLessonById } from "@/lib/game/curriculum";
+import { resolveGameMode } from "@/lib/game/modes";
+import { buildExerciseHref } from "@/lib/game/routes";
 
 type LessonPageProps = {
   params: Promise<{
@@ -43,6 +44,7 @@ export default async function LessonPage({ params, searchParams }: LessonPagePro
           <div className="flex flex-wrap gap-3">
             <span className="quest-chip quest-chip-mode">Mode on: {activeMode.name}</span>
             <LessonCompletionChip lessonId={lesson.id} />
+            <LessonRankChip lessonId={lesson.id} />
             <span className="quest-chip">{kingdom?.name ?? "World"}</span>
             <span className="quest-chip">{country?.name ?? "Topic"}</span>
           </div>

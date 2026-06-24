@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { readStoredProgress } from "@/lib/progress-storage";
+import { readStoredProgress } from "@/lib/game/storage";
 
 type LessonCompletionChipProps = {
   lessonId: string;

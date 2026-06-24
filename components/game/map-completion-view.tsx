@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { StatCard } from "@/components/ui/stat-card";
-import { readStoredProgress } from "@/lib/progress-storage";
-import { buildLessonHref } from "@/lib/routes";
+import { getLessonRankChipClass, getLessonRankLabel } from "@/lib/game/ranks";
+import { readStoredProgress } from "@/lib/game/storage";
+import { buildLessonHref } from "@/lib/game/routes";
+import type { PlayerProgress } from "@/types";
 
 type WorldRoute = {
   id: string;
@@ -30,12 +32,11 @@ type MapCompletionViewProps = {
 };
 
 export function MapCompletionView({ worlds }: MapCompletionViewProps) {
-  const [completedLessonIds, setCompletedLessonIds] = useState<string[]>([]);
+  const [progress, setProgress] = useState<PlayerProgress | null>(null);
 
   useEffect(() => {
     const syncState = () => {
-      const progress = readStoredProgress();
-      setCompletedLessonIds(progress.completedLessonIds);
+      setProgress(readStoredProgress());
     };
 
     syncState();
@@ -46,17 +47,17 @@ export function MapCompletionView({ worlds }: MapCompletionViewProps) {
     };
   }, []);
 
-  const completedKingdomIds = useMemo(() => {
-    return worlds
-      .filter((world) => {
-        const lessonIds = world.countries
-          .map((country) => country.lesson?.id)
-          .filter((lessonId): lessonId is string => Boolean(lessonId));
-
-        return lessonIds.length > 0 && lessonIds.every((lessonId) => completedLessonIds.includes(lessonId));
-      })
-      .map((world) => world.id);
-  }, [completedLessonIds, worlds]);
+  const completedLessonIds = progress?.completedLessonIds ?? [];
+  const bestScores = progress?.lessonBestScores ?? {};
+  const kingdomProgress = progress?.kingdomProgress ?? {};
+  const completedKingdomIds = Object.values(kingdomProgress)
+    .filter((kingdom) => kingdom.isCompleted)
+    .map((kingdom) => kingdom.kingdomId);
+  const goldKingdomIds = new Set(
+    Object.values(kingdomProgress)
+      .filter((kingdom) => kingdom.trophyTier === "gold")
+      .map((kingdom) => kingdom.kingdomId),
+  );
 
   const completedLessonsCount = completedLessonIds.length;
 
@@ -72,13 +73,18 @@ export function MapCompletionView({ worlds }: MapCompletionViewProps) {
       <div className="grid gap-4">
         {worlds.map((world) => {
           const isKingdomComplete = completedKingdomIds.includes(world.id);
+          const isGoldKingdom = goldKingdomIds.has(world.id);
 
           return (
             <article
               key={world.id}
               className={[
                 "quest-card p-5 sm:p-6",
-                isKingdomComplete ? "border border-emerald-200 bg-emerald-50/50" : "",
+                isGoldKingdom
+                  ? "border border-amber-200 bg-amber-50/60"
+                  : isKingdomComplete
+                    ? "border border-emerald-200 bg-emerald-50/50"
+                    : "",
               ]
                 .filter(Boolean)
                 .join(" ")}
@@ -92,7 +98,11 @@ export function MapCompletionView({ worlds }: MapCompletionViewProps) {
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
                         <p className="quest-kicker">World {world.sortOrder}</p>
-                        {isKingdomComplete ? (
+                        {isGoldKingdom ? (
+                          <span className="quest-chip bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-900">
+                            Gold kingdom
+                          </span>
+                        ) : isKingdomComplete ? (
                           <span className="quest-chip bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-900">
                             Kingdom complete
                           </span>
@@ -126,6 +136,7 @@ export function MapCompletionView({ worlds }: MapCompletionViewProps) {
                   const isLessonCompleted = Boolean(
                     country.lesson && completedLessonIds.includes(country.lesson.id),
                   );
+                  const lessonRank = country.lesson ? bestScores[country.lesson.id]?.bestRank : undefined;
 
                   return (
                     <div
@@ -157,6 +168,16 @@ export function MapCompletionView({ worlds }: MapCompletionViewProps) {
                         {isLessonCompleted ? (
                           <span className="quest-chip bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-900">
                             Lesson complete
+                          </span>
+                        ) : null}
+                        {lessonRank ? (
+                          <span
+                            className={[
+                              "quest-chip px-2.5 py-1 text-xs",
+                              getLessonRankChipClass(lessonRank),
+                            ].join(" ")}
+                          >
+                            {getLessonRankLabel(lessonRank)}
                           </span>
                         ) : null}
                       </div>

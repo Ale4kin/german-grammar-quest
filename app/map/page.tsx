@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { MapCompletionView } from "@/components/game/map-completion-view";
+import { MapProgressPanel } from "@/components/game/map-progress-panel";
 import { StatCard } from "@/components/ui/stat-card";
 import { mockAvatars } from "@/data/avatars";
 import { mockCountries } from "@/data/countries";
 import { getGameMode } from "@/data/game-modes";
 import { mockKingdoms } from "@/data/kingdoms";
 import { mockLessons } from "@/data/lessons";
-import { getLessonByCountryId } from "@/lib/game";
-import { buildLessonHref } from "@/lib/routes";
+import { getLessonByCountryId } from "@/lib/game/curriculum";
+import { buildLessonHref } from "@/lib/game/routes";
 
 const worldIcons: Record<string, string> = {
   articles: "📜",
@@ -121,6 +122,10 @@ export default async function MapPage({ searchParams }: MapPageProps) {
         </div>
 
         <MapCompletionView worlds={worldRoutes} />
+      </section>
+
+      <section className="quest-content">
+        <MapProgressPanel />
       </section>
     </main>
   );

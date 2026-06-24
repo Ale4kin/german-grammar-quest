@@ -2,11 +2,11 @@ import Link from "next/link";
 import { ModeSelector } from "@/components/game/mode-selector";
 import { StatCard } from "@/components/ui/stat-card";
 import { gameModes, getGameMode } from "@/data/game-modes";
+import { rewardRules } from "@/data/game-rules";
 import { topicsMockExercises } from "@/data/exercises/topics";
 import { mockKingdoms } from "@/data/kingdoms";
 import { mockLessons } from "@/data/lessons";
-import { rewardRules } from "@/data/reward-rules";
-import { buildLessonHref } from "@/lib/routes";
+import { buildLessonHref } from "@/lib/game/routes";
 
 const quickLinks = [
   {

@@ -2,26 +2,33 @@
 
 import Link from "next/link";
 import { getGameMode } from "@/data/game-modes";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   buildProgressFromResults,
-  getLessonById,
   getNextStreakMilestone,
   getRemainingAnswersForMilestone,
   getUnlockedStreakMilestones,
   scoreAnswer,
-} from "@/lib/game";
-import { buildLessonHref, buildResultHref } from "@/lib/routes";
-import type { Exercise, ExerciseRoundResult, GameModeId } from "@/types";
+} from "@/lib/game/session";
+import { getLessonById } from "@/lib/game/curriculum";
+import { buildLessonHref, buildResultHref } from "@/lib/game/routes";
+import { dispatchGameEvent } from "@/lib/game/storage";
+import type { Exercise, ExerciseRoundResult, ExerciseRunType, GameModeId } from "@/types";
 
 type ExerciseRunnerProps = {
   exercises: Exercise[];
   initialExerciseId: string;
   modeId: GameModeId;
+  runType?: ExerciseRunType;
 };
 
-export function ExerciseRunner({ exercises, initialExerciseId, modeId }: ExerciseRunnerProps) {
+export function ExerciseRunner({
+  exercises,
+  initialExerciseId,
+  modeId,
+  runType = "lesson",
+}: ExerciseRunnerProps) {
   const router = useRouter();
   const initialIndex = Math.max(
     0,
@@ -32,6 +39,11 @@ export function ExerciseRunner({ exercises, initialExerciseId, modeId }: Exercis
   const [results, setResults] = useState<ExerciseRoundResult[]>([]);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [usedHint, setUsedHint] = useState(false);
+  const [runId] = useState(() =>
+    typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+      ? crypto.randomUUID()
+      : `${initialExerciseId}-${Date.now()}`,
+  );
 
   const currentExercise = exercises[currentIndex];
   const roundIndex = currentIndex - initialIndex;
@@ -56,6 +68,24 @@ export function ExerciseRunner({ exercises, initialExerciseId, modeId }: Exercis
     );
   }
 
+  useEffect(() => {
+    if (!lesson) {
+      return;
+    }
+
+    dispatchGameEvent({
+      id: `lesson-started:${runId}`,
+      type: "lesson.started",
+      payload: {
+        lessonId: lesson.id,
+        kingdomId: lesson.kingdomId,
+        countryId: lesson.countryId,
+        modeUsed: mode.id,
+        occurredAt: new Date().toISOString(),
+      },
+    });
+  }, [lesson, mode.id, runId]);
+
   function handleUseHint() {
     if (hasAnswered) {
       return;
@@ -73,7 +103,12 @@ export function ExerciseRunner({ exercises, initialExerciseId, modeId }: Exercis
     const previousStreak = roundIndex === 0 ? 0 : results[roundIndex - 1]?.streakAfterAnswer ?? 0;
     const extendsStreak = isCorrect && !usedHint;
     const nextStreak = extendsStreak ? previousStreak + 1 : 0;
-    const { gemsEarned, bonusGemsEarned } = scoreAnswer(isCorrect, usedHint, nextStreak);
+    const { gemsEarned, bonusGemsEarned } = scoreAnswer(
+      isCorrect,
+      usedHint,
+      nextStreak,
+      runType,
+    );
 
     const nextResult: ExerciseRoundResult = {
       exerciseId: currentExercise.id,
@@ -84,6 +119,28 @@ export function ExerciseRunner({ exercises, initialExerciseId, modeId }: Exercis
       streakAfterAnswer: nextStreak,
       bonusGemsEarned,
     };
+
+    if (lesson) {
+      dispatchGameEvent({
+        id: `answer-submitted:${runId}:${currentExercise.id}`,
+        type: "answer.submitted",
+        payload: {
+          runId,
+          lessonId: lesson.id,
+          kingdomId: lesson.kingdomId,
+          countryId: lesson.countryId,
+          exerciseId: currentExercise.id,
+          grammarSkillIds: currentExercise.grammarSkillIds ?? [],
+          modeUsed: mode.id,
+          occurredAt: new Date().toISOString(),
+          isCorrect,
+          usedHint,
+          streakAfterAnswer: nextStreak,
+          gemsEarned,
+          bonusGemsEarned,
+        },
+      });
+    }
 
     setSelectedAnswer(option);
     setResults((prev) => [...prev, nextResult]);
@@ -98,22 +155,26 @@ export function ExerciseRunner({ exercises, initialExerciseId, modeId }: Exercis
         (best, result) => Math.max(best, result.streakAfterAnswer),
         0,
       );
-      const runId =
-        typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
-          ? crypto.randomUUID()
-          : `${currentExercise.lessonId}-${Date.now()}`;
-
+      const firstTryCount = results.filter(
+        (result) => result.isCorrect && !result.usedHint,
+      ).length;
+      const incorrectExerciseIds = results
+        .filter((result) => !result.isCorrect)
+        .map((result) => result.exerciseId);
       router.push(
         buildResultHref({
           runId,
           lessonId: currentExercise.lessonId,
           modeId: mode.id,
+          runType,
           gems: nextProgress.gems,
           correct: nextProgress.correctAnswers,
           total: exercises.length,
           streak: nextProgress.streak,
           bestStreak,
           hints: nextProgress.hintUses,
+          firstTryCount,
+          incorrectExerciseIds,
         }),
       );
       return;
@@ -216,6 +277,7 @@ export function ExerciseRunner({ exercises, initialExerciseId, modeId }: Exercis
     ? getRemainingAnswersForMilestone(progress.streak, nextMilestone.streak)
     : 0;
   const unlockedMilestones = getUnlockedStreakMilestones(progress.streak);
+  const isReviewRun = runType === "review";
 
   return (
     <main className="quest-page">
@@ -223,6 +285,7 @@ export function ExerciseRunner({ exercises, initialExerciseId, modeId }: Exercis
         <div className="quest-card p-6 sm:p-7">
           <div className="flex flex-wrap items-center gap-3">
             <span className="quest-chip">Mode: {mode.name}</span>
+            <span className="quest-chip">{isReviewRun ? "Review run" : "Full lesson"}</span>
             <span className="quest-chip">
               Question {currentIndex + 1} / {exercises.length}
             </span>

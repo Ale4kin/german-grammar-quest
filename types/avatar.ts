@@ -3,5 +3,4 @@ export type Avatar = {
   name: string;
   emoji: string;
   description: string;
-  cost?: number;
 };

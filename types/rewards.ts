@@ -14,5 +14,8 @@ export type RewardRules = {
   wrongAnswerGems: number;
   streakBonusThreshold: number;
   streakBonusGems: number;
+  reviewCorrectWithoutHintGems: number;
+  reviewCorrectWithHintGems: number;
+  reviewStreakBonusGems: number;
   streakMilestones: StreakMilestone[];
 };
