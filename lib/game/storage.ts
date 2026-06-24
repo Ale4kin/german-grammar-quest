@@ -154,7 +154,7 @@ export function claimQuest(questId: string, occurredAt = new Date().toISOString(
 
 export function unlockCosmetic(
   cosmeticId: string,
-  options?: { occurredAt?: string; sourceLessonId?: string | null },
+  options?: { occurredAt?: string; sourceLessonId?: string | null; sourceRunId?: string | null },
 ) {
   const occurredAt = options?.occurredAt ?? new Date().toISOString();
   const event: CosmeticUnlockedEvent = {
@@ -164,6 +164,7 @@ export function unlockCosmetic(
       cosmeticId,
       occurredAt,
       sourceLessonId: options?.sourceLessonId ?? null,
+      sourceRunId: options?.sourceRunId ?? null,
     },
   };
 

@@ -68,6 +68,7 @@ export type CosmeticUnlockedEvent = {
     cosmeticId: string;
     occurredAt: string;
     sourceLessonId?: string | null;
+    sourceRunId?: string | null;
   };
 };
 

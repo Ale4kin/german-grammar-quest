@@ -15,9 +15,9 @@ const quickLinks = [
     description: "Browse worlds, topics, and ready lessons in sequence.",
   },
   {
-    href: "/avatar",
-    title: "Choose an avatar",
-    description: "Preview the profile cosmetics tied to gem rewards.",
+    href: "/profile",
+    title: "Open profile",
+    description: "Check level progress, badges, streaks, and unlocked cosmetics.",
   },
 ];
 

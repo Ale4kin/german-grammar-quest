@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LessonRankChip } from "@/components/game/lesson-rank-chip";
 import { ProgressSync } from "@/components/game/progress-sync";
+import { ResultUnlocksPanel } from "@/components/game/result-unlocks-panel";
 import { StatCard } from "@/components/ui/stat-card";
 import { evaluateLessonRank, evaluateLessonXp } from "@/lib/game/evaluators";
 import { getLessonRankTitle } from "@/lib/game/ranks";
@@ -156,6 +157,17 @@ export default async function ResultPage({ searchParams }: ResultPageProps) {
               </div>
             ) : null}
           </div>
+
+          <div className="mt-5 rounded-[20px] bg-white/72 p-4">
+            <p className="quest-kicker">Rewards earned</p>
+            <div className="mt-3 grid gap-3 sm:grid-cols-3">
+              <StatCard label="Gems" value={`+${summary.gems}`} valueClassName="mt-1 text-2xl font-black text-slate-800" />
+              <StatCard label="XP" value={`+${xpEarned}`} valueClassName="mt-1 text-2xl font-black text-slate-800" />
+              <StatCard label="Best combo" value={summary.bestStreak} valueClassName="mt-1 text-2xl font-black text-slate-800" />
+            </div>
+          </div>
+
+          <ResultUnlocksPanel runId={runId} />
 
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href={replayHref} className="quest-button-primary">

@@ -3,7 +3,7 @@ import Link from "next/link";
 const navigationItems = [
   { href: "/", label: "Home" },
   { href: "/map", label: "Map" },
-  { href: "/avatar", label: "Avatars" },
+  { href: "/profile", label: "Profile" },
 ];
 
 export function AppChrome() {

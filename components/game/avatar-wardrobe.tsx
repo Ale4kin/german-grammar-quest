@@ -24,7 +24,11 @@ function getUnlockLabel(
   }
 }
 
-export function AvatarWardrobe() {
+type AvatarWardrobeProps = {
+  showHeader?: boolean;
+};
+
+export function AvatarWardrobe({ showHeader = true }: AvatarWardrobeProps) {
   const [progress, setProgress] = useState<PlayerProgress | null>(null);
 
   useEffect(() => {
@@ -50,24 +54,40 @@ export function AvatarWardrobe() {
 
   return (
     <>
-      <header className="quest-content grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="quest-card p-6 sm:p-7">
-          <p className="quest-kicker">Avatar wardrobe</p>
-          <h1 className="mt-3 quest-title text-4xl sm:text-5xl">Profile avatar selection</h1>
-          <p className="mt-3 quest-subtitle max-w-2xl">
-            Choose an unlocked avatar now. Future cosmetics unlock from gems, badges, and kingdom trophies.
-          </p>
-        </div>
-
-        <aside className="quest-card p-6 sm:p-7">
-          <p className="quest-kicker">Unlock overview</p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            <StatCard label="Available now" value={unlockedCount} />
-            <StatCard label="Locked" value={avatarCosmetics.length - unlockedCount} />
-            <StatCard label="Total styles" value={avatarCosmetics.length} />
+      {showHeader ? (
+        <header className="quest-content grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="quest-card p-6 sm:p-7">
+            <p className="quest-kicker">Avatar wardrobe</p>
+            <h1 className="mt-3 quest-title text-4xl sm:text-5xl">Profile avatar selection</h1>
+            <p className="mt-3 quest-subtitle max-w-2xl">
+              Choose an unlocked avatar now. Future cosmetics unlock from gems, badges, and kingdom trophies.
+            </p>
           </div>
-        </aside>
-      </header>
+
+          <aside className="quest-card p-6 sm:p-7">
+            <p className="quest-kicker">Unlock overview</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <StatCard label="Available now" value={unlockedCount} />
+              <StatCard label="Locked" value={avatarCosmetics.length - unlockedCount} />
+              <StatCard label="Total styles" value={avatarCosmetics.length} />
+            </div>
+          </aside>
+        </header>
+      ) : (
+        <section className="quest-content quest-card p-6 sm:p-7">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="quest-kicker">Cosmetics</p>
+              <h2 className="mt-2 quest-panel-title">Avatar wardrobe</h2>
+            </div>
+            <div className="grid grid-cols-3 gap-3 text-center">
+              <StatCard label="Ready" value={unlockedCount} valueClassName="mt-1 text-2xl font-black text-slate-800" />
+              <StatCard label="Locked" value={avatarCosmetics.length - unlockedCount} valueClassName="mt-1 text-2xl font-black text-slate-800" />
+              <StatCard label="Total" value={avatarCosmetics.length} valueClassName="mt-1 text-2xl font-black text-slate-800" />
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="quest-content grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {avatarCosmetics.map((avatar) => {

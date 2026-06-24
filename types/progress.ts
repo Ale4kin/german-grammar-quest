@@ -56,6 +56,7 @@ export type UnlockedReward = {
   id: string;
   unlockedAt: string;
   sourceLessonId?: string | null;
+  sourceRunId?: string | null;
 };
 
 export type DailyQuestProgress = {

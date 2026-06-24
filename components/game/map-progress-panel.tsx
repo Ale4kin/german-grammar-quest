@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { StatCard } from "@/components/ui/stat-card";
 import { claimQuest, readStoredProgress } from "@/lib/game/storage";
-import { evaluateWeaknessProfile, getDailyQuestStateView } from "@/lib/game/evaluators";
+import { getDailyQuestStateView } from "@/lib/game/evaluators";
 import { getLevelProgress } from "@/lib/game/player-progress";
 import type { PlayerProgress } from "@/types";
 
@@ -35,16 +35,12 @@ export function MapProgressPanel() {
     () => (progress ? getDailyQuestStateView(progress, today) : null),
     [progress, today],
   );
-  const weaknessProfile = useMemo(
-    () => (progress ? evaluateWeaknessProfile(progress.weaknessStats) : null),
-    [progress],
-  );
   const completedTrophies =
     progress ? Object.values(progress.kingdomProgress).filter((kingdom) => kingdom.isCompleted).length : 0;
   const goldTrophies =
     progress ? Object.values(progress.kingdomProgress).filter((kingdom) => kingdom.trophyTier === "gold").length : 0;
 
-  if (!progress || !levelProgress || !dailyQuestView || !weaknessProfile) {
+  if (!progress || !levelProgress || !dailyQuestView) {
     return null;
   }
 
@@ -119,35 +115,6 @@ export function MapProgressPanel() {
               </div>
             );
           })}
-        </div>
-      </section>
-
-      <section className="quest-card p-5 sm:p-6 xl:col-span-2">
-        <p className="quest-kicker">Weakness tracker</p>
-        <h2 className="mt-3 quest-panel-title">Needs more practice</h2>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {weaknessProfile.weakestTopics.length > 0 ? (
-            weaknessProfile.weakestTopics.map((topic) => (
-              <div key={topic.skillId} className="rounded-[20px] bg-white/78 p-4 shadow-sm">
-                <p className="text-sm font-black text-slate-800">{topic.skillLabel}</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <span className="quest-chip px-2.5 py-1 text-xs">{topic.accuracy}% accuracy</span>
-                  <span className="quest-chip px-2.5 py-1 text-xs">{topic.hintRate}% hint rate</span>
-                  <span className="quest-chip px-2.5 py-1 text-xs">
-                    {topic.severity === "high"
-                      ? "High focus"
-                      : topic.severity === "medium"
-                        ? "Medium focus"
-                        : "Light review"}
-                  </span>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="rounded-[20px] bg-white/78 p-4 text-sm leading-6 text-slate-600">
-              Finish a few lessons to see which topics need more repetition.
-            </div>
-          )}
         </div>
       </section>
     </div>

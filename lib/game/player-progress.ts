@@ -8,6 +8,7 @@ import {
   evaluateKingdomCompletion,
   evaluateLessonRank,
   evaluateLessonXp,
+  getLocalDateKey,
   evaluateLevelProgress,
 } from "@/lib/game/evaluators";
 import type {
@@ -60,6 +61,34 @@ function createLifetimeStats(): PlayerProgress["lifetimeStats"] {
     hintUses: 0,
     totalGemsEarned: 0,
     totalXpEarned: 0,
+  };
+}
+
+function updateDailyActivity(progress: PlayerProgress, occurredAt: string) {
+  const activityDateKey = getLocalDateKey(occurredAt);
+  const previousDateKey = progress.lastActiveOn;
+
+  if (previousDateKey === activityDateKey) {
+    return {
+      dailyStreak: progress.dailyStreak || 1,
+      lastActiveOn: activityDateKey,
+    };
+  }
+
+  if (!previousDateKey) {
+    return {
+      dailyStreak: 1,
+      lastActiveOn: activityDateKey,
+    };
+  }
+
+  const previousDate = new Date(`${previousDateKey}T00:00:00`);
+  const currentDate = new Date(`${activityDateKey}T00:00:00`);
+  const diffInDays = Math.round((currentDate.getTime() - previousDate.getTime()) / 86400000);
+
+  return {
+    dailyStreak: diffInDays === 1 ? progress.dailyStreak + 1 : 1,
+    lastActiveOn: activityDateKey,
   };
 }
 
@@ -328,6 +357,7 @@ export function applyLessonCompletion(
   };
 
   const nextXp = progress.xp + xpEarned;
+  const activityUpdate = updateDailyActivity(progress, completedAt);
   const rankEvaluation = evaluateLessonRank(lessonResultEntry);
   const rankWeight = { bronze: 1, silver: 2, gold: 3 };
   if (rankWeight[rankEvaluation.rank] > rankWeight[lessonBestScore.bestRank]) {
@@ -359,9 +389,11 @@ export function applyLessonCompletion(
         id: badgeId,
         unlockedAt: completedAt,
         sourceLessonId: update.lessonId,
+        sourceRunId: update.runId ?? null,
       })),
     ],
-    lastActiveOn: completedAt.slice(0, 10),
+    dailyStreak: activityUpdate.dailyStreak,
+    lastActiveOn: activityUpdate.lastActiveOn,
     dailyQuestState: {
       dateKey: dailyQuestEvaluation.dateKey,
       activeQuestIds: dailyQuestEvaluation.activeQuestIds,
@@ -411,6 +443,7 @@ export function applyLessonCompletion(
         id: cosmeticId,
         unlockedAt: completedAt,
         sourceLessonId: update.lessonId,
+        sourceRunId: update.runId ?? null,
       })),
     ],
   };
@@ -420,12 +453,14 @@ function applyLessonStarted(
   progress: PlayerProgress,
   event: LessonStartedEvent,
 ): PlayerProgress {
+  const activityUpdate = updateDailyActivity(progress, event.payload.occurredAt);
   return {
     ...progress,
     activeKingdomId: event.payload.kingdomId,
     activeCountryId: event.payload.countryId,
     currentLessonId: event.payload.lessonId,
-    lastActiveOn: event.payload.occurredAt.slice(0, 10),
+    dailyStreak: activityUpdate.dailyStreak,
+    lastActiveOn: activityUpdate.lastActiveOn,
   };
 }
 
@@ -437,6 +472,7 @@ function applyAnswerSubmitted(
     ? progress.completedExerciseIds
     : [...progress.completedExerciseIds, event.payload.exerciseId];
   const weaknessStats = { ...progress.weaknessStats };
+  const activityUpdate = updateDailyActivity(progress, event.payload.occurredAt);
 
   event.payload.grammarSkillIds.forEach((skillId) => {
     const previousWeakness = weaknessStats[skillId];
@@ -459,7 +495,8 @@ function applyAnswerSubmitted(
     currentLessonId: event.payload.lessonId,
     completedExerciseIds,
     weaknessStats,
-    lastActiveOn: event.payload.occurredAt.slice(0, 10),
+    dailyStreak: activityUpdate.dailyStreak,
+    lastActiveOn: activityUpdate.lastActiveOn,
   };
 }
 
@@ -477,6 +514,7 @@ function applyQuestClaimed(
   const nextProgress = {
     ...progress,
     gems: progress.gems + questDefinition.rewardGems,
+    ...updateDailyActivity(progress, event.payload.occurredAt),
     dailyQuestState: {
       ...progress.dailyQuestState,
       quests: {
@@ -498,6 +536,7 @@ function applyQuestClaimed(
         id: cosmeticId,
         unlockedAt: event.payload.occurredAt,
         sourceLessonId: null,
+        sourceRunId: null,
       })),
     ],
   };
@@ -523,6 +562,7 @@ function applyCosmeticUnlocked(
         id: event.payload.cosmeticId,
         unlockedAt: event.payload.occurredAt,
         sourceLessonId: event.payload.sourceLessonId ?? null,
+        sourceRunId: event.payload.sourceRunId ?? null,
       },
     ],
   };

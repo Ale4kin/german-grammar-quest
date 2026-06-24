@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { LessonCompletionChip } from "@/components/game/lesson-completion-chip";
 import { LessonRankChip } from "@/components/game/lesson-rank-chip";
 import { StatCard } from "@/components/ui/stat-card";
-import { rewardRules } from "@/data/game-rules";
+import { lessonRankThresholds, rewardRules } from "@/data/game-rules";
 import { getExercisesByLesson } from "@/data/exercises/topics";
 import { getCountryById, getKingdomById, getLessonById } from "@/lib/game/curriculum";
 import { resolveGameMode } from "@/lib/game/modes";
@@ -143,6 +143,49 @@ export default async function LessonPage({ params, searchParams }: LessonPagePro
         </div>
 
         <aside className="quest-card p-6">
+          <div className="rounded-[24px] bg-white/72 p-5">
+            <p className="quest-kicker">Rank targets</p>
+            <div className="mt-4 grid gap-3">
+              <div className="rounded-[18px] bg-white/80 px-4 py-3">
+                <p className="text-sm font-black text-amber-900">Gold</p>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  {lessonRankThresholds.gold.minAccuracy}% accuracy, no hints, perfect run.
+                </p>
+              </div>
+              <div className="rounded-[18px] bg-white/80 px-4 py-3">
+                <p className="text-sm font-black text-slate-800">Silver</p>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  {lessonRankThresholds.silver.minAccuracy}% accuracy and at most {lessonRankThresholds.silver.maxHints} hints.
+                </p>
+              </div>
+              <div className="rounded-[18px] bg-white/80 px-4 py-3">
+                <p className="text-sm font-black text-orange-900">Bronze</p>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  {lessonRankThresholds.bronze.minAccuracy}% accuracy to clear the lesson.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-[24px] bg-white/72 p-5">
+            <p className="quest-kicker">Rewards preview</p>
+            <h2 className="mt-3 quest-panel-title">What this lesson can pay</h2>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-[18px] bg-white/80 px-4 py-3">
+                <p className="text-sm font-black text-slate-800">Full lesson</p>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  +{rewardRules.correctWithoutHintGems} clean answer, +{rewardRules.correctWithHintGems} after hint, +{rewardRules.streakBonusGems} streak bonus.
+                </p>
+              </div>
+              <div className="rounded-[18px] bg-white/80 px-4 py-3">
+                <p className="text-sm font-black text-slate-800">Review set</p>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  Missed-question replays pay less than a full lesson, but still grant gems and XP for cleanup work.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="rounded-[24px] bg-white/72 p-5">
             <p className="quest-kicker">Streak ladder</p>
             <div className="mt-4 space-y-3 text-sm font-semibold text-slate-700">

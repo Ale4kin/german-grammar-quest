@@ -100,8 +100,8 @@ export default async function MapPage({ searchParams }: MapPageProps) {
           </p>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <Link href="/avatar" className="quest-button-secondary w-full">
-              Manage avatar
+            <Link href="/profile" className="quest-button-secondary w-full">
+              Open profile
             </Link>
             <Link href={buildLessonHref("a1-articles")} className="quest-button-primary w-full">
               Resume active lesson
