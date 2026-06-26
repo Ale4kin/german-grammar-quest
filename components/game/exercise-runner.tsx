@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { getGameMode } from "@/data/game-modes";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   buildProgressFromResults,
@@ -39,6 +39,7 @@ export function ExerciseRunner({
   const [results, setResults] = useState<ExerciseRoundResult[]>([]);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [usedHint, setUsedHint] = useState(false);
+  const feedbackHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const [runId] = useState(() =>
     typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
       ? crypto.randomUUID()
@@ -278,9 +279,31 @@ export function ExerciseRunner({
     : 0;
   const unlockedMilestones = getUnlockedStreakMilestones(progress.streak);
   const isReviewRun = runType === "review";
+  const hintAnnouncement = usedHint
+    ? `Hint opened. ${currentExercise.hint}`
+    : "No hint open yet.";
+  const feedbackAnnouncement = currentResult
+    ? `${feedbackContent?.title ?? "Answer submitted"}. ${feedbackContent?.summary ?? ""} Explanation: ${
+        currentExercise.explanation
+      } Gems earned ${
+        currentResult.gemsEarned + currentResult.bonusGemsEarned
+      }. Streak ${currentResult.streakAfterAnswer}.`
+    : "";
+
+  useEffect(() => {
+    if (currentResult) {
+      feedbackHeadingRef.current?.focus();
+    }
+  }, [currentResult]);
 
   return (
-    <main className="quest-page">
+    <main id="main-content" className="quest-page" tabIndex={-1}>
+      <p className="sr-only" aria-live="polite" aria-atomic="true">
+        {feedbackAnnouncement}
+      </p>
+      <p className="sr-only" aria-live="polite" aria-atomic="true">
+        {hintAnnouncement}
+      </p>
       <header className="quest-content grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
         <div className="quest-card p-6 sm:p-7">
           <div className="flex flex-wrap items-center gap-3">
@@ -312,7 +335,15 @@ export function ExerciseRunner({
               <span>Run progress</span>
               <span>{currentIndex + 1} of {exercises.length}</span>
             </div>
-            <div className="quest-progress-track mt-3">
+            <div
+              className="quest-progress-track mt-3"
+              role="progressbar"
+              aria-label="Exercise run progress"
+              aria-valuemin={0}
+              aria-valuemax={exercises.length}
+              aria-valuenow={currentIndex + 1}
+              aria-valuetext={`Question ${currentIndex + 1} of ${exercises.length}`}
+            >
               <div
                 className="quest-progress-fill transition-all"
                 style={{ width: `${progressWidth}%` }}
@@ -420,7 +451,13 @@ export function ExerciseRunner({
 
           {currentResult && feedbackContent ? (
             <div className={`mt-6 rounded-[28px] border p-5 sm:p-6 ${feedbackContent.toneClass}`}>
-              <h2 className="text-xl font-black text-slate-800">{feedbackContent.title}</h2>
+              <h2
+                ref={feedbackHeadingRef}
+                tabIndex={-1}
+                className="text-xl font-black text-slate-800"
+              >
+                {feedbackContent.title}
+              </h2>
               <p className="mt-2 text-sm font-semibold text-slate-700">{feedbackContent.summary}</p>
               <div className="mt-4 rounded-[20px] bg-white/70 p-4">
                 <p className="quest-kicker">Explanation</p>
@@ -478,7 +515,11 @@ export function ExerciseRunner({
             {usedHint ? "Hint already used" : "Show hint"}
           </button>
 
-          <div className="mt-4 rounded-[24px] border border-amber-100 bg-gradient-to-r from-amber-50/90 to-orange-50/90 p-4">
+          <div
+            className="mt-4 rounded-[24px] border border-amber-100 bg-gradient-to-r from-amber-50/90 to-orange-50/90 p-4"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             <p className="quest-kicker text-amber-900">Hint text</p>
             <p className="mt-2 text-sm leading-6 text-slate-700">
               {usedHint ? currentExercise.hint : "No hint open yet. Try the answer first if you can."}

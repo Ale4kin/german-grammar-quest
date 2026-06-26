@@ -53,7 +53,19 @@ export function ProfileOverview() {
         </div>
 
         <div className="mt-6">
-          <div className="quest-progress-track">
+          <div
+            className="quest-progress-track"
+            role="progressbar"
+            aria-label="Profile level progress"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(levelProgress.progressPercent)}
+            aria-valuetext={
+              levelProgress.nextLevel
+                ? `${levelProgress.currentLevelXp} of ${levelProgress.requiredXp} XP toward Level ${levelProgress.nextLevel}`
+                : "Top level reached"
+            }
+          >
             <div
               className="quest-progress-fill transition-all"
               style={{ width: `${levelProgress.progressPercent}%` }}

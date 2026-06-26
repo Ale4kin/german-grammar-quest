@@ -57,7 +57,7 @@ export default async function MapPage({ searchParams }: MapPageProps) {
   const explorerMode = getGameMode("explorer");
 
   return (
-    <main className="quest-page">
+    <main id="main-content" className="quest-page" tabIndex={-1}>
       <header className="quest-content grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="quest-card p-6 sm:p-7">
           <p className="quest-kicker">Study map</p>

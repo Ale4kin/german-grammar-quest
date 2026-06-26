@@ -91,7 +91,7 @@ export default async function ResultPage({ searchParams }: ResultPageProps) {
   const rankEvaluation = evaluateLessonRank(lessonResult);
 
   return (
-    <main className="quest-page justify-center">
+    <main id="main-content" className="quest-page justify-center" tabIndex={-1}>
       {lesson ? (
         <ProgressSync
           runId={runId}
@@ -193,7 +193,7 @@ export default async function ResultPage({ searchParams }: ResultPageProps) {
             <p className="quest-kicker">Explorer rules</p>
             <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
               {activeMode.rules.map((rule) => (
-                <li key={rule}>• {rule}</li>
+                <li key={rule}>{rule}</li>
               ))}
             </ul>
           </div>

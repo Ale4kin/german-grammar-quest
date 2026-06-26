@@ -27,7 +27,7 @@ export default function LandingPage() {
   const explorerMode = getGameMode("explorer");
 
   return (
-    <main className="quest-page justify-center">
+    <main id="main-content" className="quest-page justify-center" tabIndex={-1}>
       <section className="quest-content grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="quest-card p-6 sm:p-8">
           <div className="flex flex-wrap gap-3">
@@ -52,11 +52,14 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/map" className="quest-button-primary">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Link href="/map" className="quest-button-primary w-full sm:w-auto">
               Open study map
             </Link>
-            <Link href={buildLessonHref("a1-articles")} className="quest-button-secondary">
+            <Link
+              href={buildLessonHref("a1-articles")}
+              className="quest-button-secondary w-full sm:w-auto"
+            >
               Jump to active lesson
             </Link>
           </div>
@@ -77,21 +80,21 @@ export default function LandingPage() {
         <div className="quest-card p-6">
           <p className="quest-kicker">Workflow</p>
           <h2 className="mt-3 quest-panel-title">Core study path</h2>
-          <div className="mt-5 space-y-4">
+          <ol className="mt-5 space-y-4">
             {[
               "Choose a world and topic from the map.",
               "Read the lesson rule and preview examples.",
               "Run the exercise set with hints and streak bonuses.",
               "Review the result summary and replay or continue.",
             ].map((step, index) => (
-              <div key={step} className="flex items-start gap-3">
+              <li key={step} className="flex items-start gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-sm font-black text-slate-700">
                   {index + 1}
                 </div>
                 <p className="pt-1 text-sm leading-6 text-slate-700">{step}</p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">

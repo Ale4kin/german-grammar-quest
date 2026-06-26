@@ -54,7 +54,19 @@ export function MapProgressPanel() {
             ? `${levelProgress.currentLevelXp} / ${levelProgress.requiredXp} XP to Level ${levelProgress.nextLevel}.`
             : "Top level reached for the current progression table."}
         </p>
-        <div className="quest-progress-track mt-4">
+        <div
+          className="quest-progress-track mt-4"
+          role="progressbar"
+          aria-label="Level progress"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(levelProgress.progressPercent)}
+          aria-valuetext={
+            levelProgress.nextLevel
+              ? `${levelProgress.currentLevelXp} of ${levelProgress.requiredXp} XP toward Level ${levelProgress.nextLevel}`
+              : "Top level reached"
+          }
+        >
           <div
             className="quest-progress-fill transition-all"
             style={{ width: `${levelProgress.progressPercent}%` }}

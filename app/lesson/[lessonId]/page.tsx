@@ -38,7 +38,7 @@ export default async function LessonPage({ params, searchParams }: LessonPagePro
       : "mt-4 grid gap-3 sm:grid-cols-2";
 
   return (
-    <main className="quest-page">
+    <main id="main-content" className="quest-page" tabIndex={-1}>
       <header className="quest-content grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="quest-card p-6 sm:p-7">
           <div className="flex flex-wrap gap-3">
@@ -135,7 +135,7 @@ export default async function LessonPage({ params, searchParams }: LessonPagePro
               <p className="quest-kicker">Usage notes</p>
               <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
                 {lesson.grammarNotes.map((note) => (
-                  <li key={note}>• {note}</li>
+                  <li key={note}>{note}</li>
                 ))}
               </ul>
             </div>
@@ -188,9 +188,9 @@ export default async function LessonPage({ params, searchParams }: LessonPagePro
 
           <div className="rounded-[24px] bg-white/72 p-5">
             <p className="quest-kicker">Streak ladder</p>
-            <div className="mt-4 space-y-3 text-sm font-semibold text-slate-700">
+            <ul className="mt-4 space-y-3 text-sm font-semibold text-slate-700">
               {rewardRules.streakMilestones.map((milestone) => (
-                <div
+                <li
                   key={milestone.streak}
                   className="flex items-start justify-between gap-4 rounded-[18px] bg-white/80 px-4 py-3"
                 >
@@ -209,9 +209,9 @@ export default async function LessonPage({ params, searchParams }: LessonPagePro
                         ? "Chest"
                         : "Badge"}
                   </span>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
             <div className="mt-4 rounded-[18px] border border-amber-100 bg-amber-50/70 p-4 text-sm leading-6 text-slate-700">
               Start of lesson: <span className="font-black">🔥 Streak 0 / 3</span>
               <br />

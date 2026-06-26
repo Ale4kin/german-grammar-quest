@@ -62,6 +62,26 @@ a {
     @apply sticky top-0 z-30 px-4 pt-4 sm:px-6 lg:px-8;
   }
 
+  .quest-skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 50;
+    border-radius: 9999px;
+    background: #17324d;
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    box-shadow:
+      0 0 0 3px rgba(255, 255, 255, 0.96),
+      0 0 0 6px rgba(23, 50, 77, 0.96);
+  }
+
+  .quest-skip-link:focus {
+    top: 1rem;
+  }
+
   .quest-topbar-inner {
     @apply mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 rounded-[24px] border px-4 py-3 sm:px-5;
     border-color: rgba(255, 255, 255, 0.7);
@@ -266,7 +286,31 @@ a {
   .quest-nav-link:focus-visible,
   button:focus-visible,
   a:focus-visible {
-    outline: 2px solid rgba(76, 122, 94, 0.55);
-    outline-offset: 2px;
+    outline: 3px solid #17324d;
+    outline-offset: 3px;
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, 0.96),
+      0 0 0 6px rgba(23, 50, 77, 0.92);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .quest-button-primary:hover,
+  .quest-button-secondary:hover,
+  .quest-nav-link:hover,
+  .quest-mode-card-preview {
+    transform: none !important;
   }
 }

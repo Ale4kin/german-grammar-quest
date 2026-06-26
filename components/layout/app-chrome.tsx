@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Fragment } from "react";
 
 const navigationItems = [
   { href: "/", label: "Home" },
@@ -8,26 +9,31 @@ const navigationItems = [
 
 export function AppChrome() {
   return (
-    <header className="quest-topbar">
-      <div className="quest-topbar-inner">
-        <Link href="/" className="quest-brand">
-          <span className="quest-brand-mark" aria-hidden="true">
-            GG
-          </span>
-          <div>
-            <p className="quest-brand-title">German Grammar Quest</p>
-            <p className="quest-brand-subtitle">Grammar journey</p>
-          </div>
-        </Link>
+    <Fragment>
+      <a href="#main-content" className="quest-skip-link">
+        Skip to main content
+      </a>
+      <header className="quest-topbar">
+        <div className="quest-topbar-inner">
+          <Link href="/" className="quest-brand">
+            <span className="quest-brand-mark" aria-hidden="true">
+              GG
+            </span>
+            <div>
+              <p className="quest-brand-title">German Grammar Quest</p>
+              <p className="quest-brand-subtitle">Grammar journey</p>
+            </div>
+          </Link>
 
-        <nav className="flex flex-wrap items-center gap-2" aria-label="Primary">
-          {navigationItems.map((item) => (
-            <Link key={item.href} href={item.href} className="quest-nav-link">
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </div>
-    </header>
+          <nav className="flex flex-wrap items-center gap-2" aria-label="Primary">
+            {navigationItems.map((item) => (
+              <Link key={item.href} href={item.href} className="quest-nav-link">
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </header>
+    </Fragment>
   );
 }
