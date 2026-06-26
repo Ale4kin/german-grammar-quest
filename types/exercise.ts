@@ -11,6 +11,7 @@ export type ExerciseType =
 export type Exercise = {
   id: string;
   lessonId: string;
+  grammarSkillIds?: string[];
   type?: ExerciseType;
   prompt: string;
   noun: string;

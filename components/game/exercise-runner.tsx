@@ -1,16 +1,34 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Link from "next/link";
+import { getGameMode } from "@/data/game-modes";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { buildProgressFromResults, scoreAnswer } from "@/lib/game";
-import type { Exercise, ExerciseRoundResult } from "@/types";
+import {
+  buildProgressFromResults,
+  getNextStreakMilestone,
+  getRemainingAnswersForMilestone,
+  getUnlockedStreakMilestones,
+  scoreAnswer,
+} from "@/lib/game/session";
+import { getLessonById } from "@/lib/game/curriculum";
+import { buildLessonHref, buildResultHref } from "@/lib/game/routes";
+import { dispatchGameEvent } from "@/lib/game/storage";
+import type { Exercise, ExerciseRoundResult, ExerciseRunType, GameModeId } from "@/types";
 
 type ExerciseRunnerProps = {
   exercises: Exercise[];
   initialExerciseId: string;
+  modeId: GameModeId;
+  runType?: ExerciseRunType;
 };
 
-export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerProps) {
+export function ExerciseRunner({
+  exercises,
+  initialExerciseId,
+  modeId,
+  runType = "lesson",
+}: ExerciseRunnerProps) {
   const router = useRouter();
   const initialIndex = Math.max(
     0,
@@ -21,12 +39,20 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
   const [results, setResults] = useState<ExerciseRoundResult[]>([]);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [usedHint, setUsedHint] = useState(false);
+  const feedbackHeadingRef = useRef<HTMLHeadingElement | null>(null);
+  const [runId] = useState(() =>
+    typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+      ? crypto.randomUUID()
+      : `${initialExerciseId}-${Date.now()}`,
+  );
 
   const currentExercise = exercises[currentIndex];
   const roundIndex = currentIndex - initialIndex;
   const currentResult = results[roundIndex];
   const hasAnswered = Boolean(currentResult);
-  const exerciseType = currentExercise.type ?? "article-choice";
+  const exerciseType = currentExercise?.type ?? "article-choice";
+  const lesson = currentExercise ? getLessonById(currentExercise.lessonId) : undefined;
+  const mode = getGameMode(modeId);
 
   const progress = useMemo(() => {
     const lessonId = exercises[0]?.lessonId ?? "a1-articles";
@@ -35,11 +61,31 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
 
   if (!currentExercise) {
     return (
-      <main className="mx-auto flex min-h-screen max-w-4xl flex-col justify-center gap-4 px-6 py-12">
-        <h1 className="text-3xl font-bold">No exercises found.</h1>
+      <main className="quest-page justify-center">
+        <section className="quest-content quest-card p-6 sm:p-8">
+          <h1 className="text-3xl font-bold">No exercises found.</h1>
+        </section>
       </main>
     );
   }
+
+  useEffect(() => {
+    if (!lesson) {
+      return;
+    }
+
+    dispatchGameEvent({
+      id: `lesson-started:${runId}`,
+      type: "lesson.started",
+      payload: {
+        lessonId: lesson.id,
+        kingdomId: lesson.kingdomId,
+        countryId: lesson.countryId,
+        modeUsed: mode.id,
+        occurredAt: new Date().toISOString(),
+      },
+    });
+  }, [lesson, mode.id, runId]);
 
   function handleUseHint() {
     if (hasAnswered) {
@@ -56,8 +102,14 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
 
     const isCorrect = option === currentExercise.correctAnswer;
     const previousStreak = roundIndex === 0 ? 0 : results[roundIndex - 1]?.streakAfterAnswer ?? 0;
-    const nextStreak = isCorrect ? previousStreak + 1 : 0;
-    const { gemsEarned, bonusGemsEarned } = scoreAnswer(isCorrect, usedHint, nextStreak);
+    const extendsStreak = isCorrect && !usedHint;
+    const nextStreak = extendsStreak ? previousStreak + 1 : 0;
+    const { gemsEarned, bonusGemsEarned } = scoreAnswer(
+      isCorrect,
+      usedHint,
+      nextStreak,
+      runType,
+    );
 
     const nextResult: ExerciseRoundResult = {
       exerciseId: currentExercise.id,
@@ -69,6 +121,28 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
       bonusGemsEarned,
     };
 
+    if (lesson) {
+      dispatchGameEvent({
+        id: `answer-submitted:${runId}:${currentExercise.id}`,
+        type: "answer.submitted",
+        payload: {
+          runId,
+          lessonId: lesson.id,
+          kingdomId: lesson.kingdomId,
+          countryId: lesson.countryId,
+          exerciseId: currentExercise.id,
+          grammarSkillIds: currentExercise.grammarSkillIds ?? [],
+          modeUsed: mode.id,
+          occurredAt: new Date().toISOString(),
+          isCorrect,
+          usedHint,
+          streakAfterAnswer: nextStreak,
+          gemsEarned,
+          bonusGemsEarned,
+        },
+      });
+    }
+
     setSelectedAnswer(option);
     setResults((prev) => [...prev, nextResult]);
   }
@@ -78,10 +152,31 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
 
     if (isLastQuestion) {
       const nextProgress = buildProgressFromResults(results, currentExercise.lessonId);
-      const bestStreak = results.reduce((best, result) => Math.max(best, result.streakAfterAnswer), 0);
-
+      const bestStreak = results.reduce(
+        (best, result) => Math.max(best, result.streakAfterAnswer),
+        0,
+      );
+      const firstTryCount = results.filter(
+        (result) => result.isCorrect && !result.usedHint,
+      ).length;
+      const incorrectExerciseIds = results
+        .filter((result) => !result.isCorrect)
+        .map((result) => result.exerciseId);
       router.push(
-        `/result?lessonId=${currentExercise.lessonId}&gems=${nextProgress.gems}&correct=${nextProgress.correctAnswers}&total=${exercises.length}&streak=${nextProgress.streak}&bestStreak=${bestStreak}&hints=${nextProgress.hintUses}`,
+        buildResultHref({
+          runId,
+          lessonId: currentExercise.lessonId,
+          modeId: mode.id,
+          runType,
+          gems: nextProgress.gems,
+          correct: nextProgress.correctAnswers,
+          total: exercises.length,
+          streak: nextProgress.streak,
+          bestStreak,
+          hints: nextProgress.hintUses,
+          firstTryCount,
+          incorrectExerciseIds,
+        }),
       );
       return;
     }
@@ -116,7 +211,7 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
       return {
         title: "Correct after hint",
         toneClass: "border-amber-200 bg-amber-50/80",
-        summary: "Nice recovery. The hint helped you find the right article.",
+        summary: "You recovered well. The hint cost gems and reset the combo streak.",
       };
     }
 
@@ -124,18 +219,16 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
       return {
         title: "Correct",
         toneClass: "border-emerald-200 bg-emerald-50/80",
-        summary: "Great job. You chose the right article on your own.",
+        summary: "Good answer. You got the form right without support.",
       };
     }
 
     return {
-      title: "Wrong answer",
+      title: "Incorrect",
       toneClass: "border-rose-200 bg-rose-50/80",
-      summary: `The correct answer is ${currentExercise.correctAnswer}. Try to remember the full form that fits this situation.`,
+      summary: `The correct answer is ${currentExercise.correctAnswer}. Read the explanation, then continue the run.`,
     };
   }
-
-  const feedbackContent = getFeedbackContent();
 
   function getExerciseTypeMeta() {
     switch (exerciseType) {
@@ -177,119 +270,262 @@ export function ExerciseRunner({ exercises, initialExerciseId }: ExerciseRunnerP
     }
   }
 
+  const feedbackContent = getFeedbackContent();
   const exerciseTypeMeta = getExerciseTypeMeta();
+  const progressWidth = ((currentIndex + 1) / exercises.length) * 100;
+  const nextMilestone = getNextStreakMilestone(progress.streak);
+  const answersToNextMilestone = nextMilestone
+    ? getRemainingAnswersForMilestone(progress.streak, nextMilestone.streak)
+    : 0;
+  const unlockedMilestones = getUnlockedStreakMilestones(progress.streak);
+  const isReviewRun = runType === "review";
+  const hintAnnouncement = usedHint
+    ? `Hint opened. ${currentExercise.hint}`
+    : "No hint open yet.";
+  const feedbackAnnouncement = currentResult
+    ? `${feedbackContent?.title ?? "Answer submitted"}. ${feedbackContent?.summary ?? ""} Explanation: ${
+        currentExercise.explanation
+      } Gems earned ${
+        currentResult.gemsEarned + currentResult.bonusGemsEarned
+      }. Streak ${currentResult.streakAfterAnswer}.`
+    : "";
+
+  useEffect(() => {
+    if (currentResult) {
+      feedbackHeadingRef.current?.focus();
+    }
+  }, [currentResult]);
 
   return (
-    <main className="quest-page">
-      <header className="quest-content space-y-5">
-        <div className="flex flex-wrap gap-3">
-          <span className="quest-chip">Question {currentIndex + 1} / {exercises.length}</span>
-          <span className="quest-chip quest-chip-gem">💎 {progress.gems} gems</span>
-          <span className="quest-chip quest-chip-streak">🔥 streak {progress.streak}</span>
-        </div>
-        <div className="space-y-3">
-          <p className="text-sm font-bold uppercase tracking-[0.22em] text-slate-500">Step 4</p>
-          <h1 className="quest-title text-4xl sm:text-5xl">Grammar encounter</h1>
-          <p className="quest-subtitle max-w-2xl">{currentExercise.prompt}</p>
-        </div>
-        <div className="quest-card p-4 sm:p-5">
-          <div className="flex items-center justify-between text-sm font-semibold text-slate-600">
-            <span>Quest progress</span>
-            <span>{currentIndex + 1} of {exercises.length}</span>
+    <main id="main-content" className="quest-page" tabIndex={-1}>
+      <p className="sr-only" aria-live="polite" aria-atomic="true">
+        {feedbackAnnouncement}
+      </p>
+      <p className="sr-only" aria-live="polite" aria-atomic="true">
+        {hintAnnouncement}
+      </p>
+      <header className="quest-content grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+        <div className="quest-card p-6 sm:p-7">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="quest-chip">Mode: {mode.name}</span>
+            <span className="quest-chip">{isReviewRun ? "Review run" : "Full lesson"}</span>
+            <span className="quest-chip">
+              Question {currentIndex + 1} / {exercises.length}
+            </span>
+            <span className="quest-chip quest-chip-gem">💎 {progress.gems} gems</span>
+            <span className="quest-chip quest-chip-streak">🔥 streak {progress.streak}</span>
           </div>
-          <div className="quest-progress-track mt-3">
+
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="quest-kicker">Active exercise</p>
+              <h1 className="mt-2 quest-title text-4xl sm:text-5xl">
+                {lesson?.title ?? "Grammar encounter"}
+              </h1>
+            </div>
+            <Link href={buildLessonHref(currentExercise.lessonId, mode.id)} className="quest-button-secondary">
+              Exit to lesson
+            </Link>
+          </div>
+
+          <p className="mt-4 quest-subtitle max-w-2xl">{currentExercise.prompt}</p>
+
+          <div className="mt-6 quest-card p-4 sm:p-5">
+            <div className="flex items-center justify-between text-sm font-semibold text-slate-600">
+              <span>Run progress</span>
+              <span>{currentIndex + 1} of {exercises.length}</span>
+            </div>
             <div
-              className="quest-progress-fill transition-all"
-              style={{ width: `${((currentIndex + 1) / exercises.length) * 100}%` }}
-            />
+              className="quest-progress-track mt-3"
+              role="progressbar"
+              aria-label="Exercise run progress"
+              aria-valuemin={0}
+              aria-valuemax={exercises.length}
+              aria-valuenow={currentIndex + 1}
+              aria-valuetext={`Question ${currentIndex + 1} of ${exercises.length}`}
+            >
+              <div
+                className="quest-progress-fill transition-all"
+                style={{ width: `${progressWidth}%` }}
+              />
+            </div>
           </div>
         </div>
+
+        <aside className="quest-card p-6 sm:p-7">
+          <p className="quest-kicker">Question framing</p>
+          <h2 className="mt-3 quest-panel-title">{exerciseTypeMeta.badge}</h2>
+          <p className="mt-3 text-sm leading-6 text-slate-600">{exerciseTypeMeta.helper}</p>
+
+          <div className="mt-5 rounded-[24px] bg-white/72 p-5">
+            <p className="quest-kicker">Current mode</p>
+            <h3 className="mt-2 text-lg font-black text-slate-800">Mode: {mode.name}</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-600">{mode.summary}</p>
+          </div>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+            <div className="quest-stat-card">
+              <p className="text-sm text-slate-500">Streak status</p>
+              <p className="mt-1 text-lg font-black text-slate-800">
+                🔥 Streak {progress.streak}
+                {nextMilestone ? ` / ${nextMilestone.streak}` : ""}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                {nextMilestone
+                  ? `Answer ${answersToNextMilestone} more correctly without a hint to get ${
+                      nextMilestone.rewardType === "gems"
+                        ? `+${nextMilestone.gemBonus ?? 0} bonus gems`
+                        : nextMilestone.rewardType === "chest"
+                          ? "a small chest"
+                          : "the perfect combo badge"
+                    }.`
+                  : "Top reward reached. Keep the combo alive."}
+              </p>
+            </div>
+            <div className="quest-stat-card">
+              <p className="text-sm text-slate-500">Run status</p>
+              <p className="mt-1 text-lg font-black text-slate-800">
+                {progress.correctAnswers} / {results.length}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                {usedHint
+                  ? "Hint already used on this question. This answer cannot extend the streak."
+                  : "No hint used on this question yet."}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-[24px] bg-white/72 p-5">
+            <p className="quest-kicker">Unlocked this run</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {unlockedMilestones.length > 0 ? (
+                unlockedMilestones.map((milestone) => (
+                  <span
+                    key={milestone.streak}
+                    className="quest-chip px-2.5 py-1 text-xs font-bold"
+                  >
+                    {milestone.rewardType === "gems"
+                      ? `🔥 ${milestone.streak}: +${milestone.gemBonus ?? 0} gems`
+                      : milestone.rewardType === "chest"
+                        ? `🧰 ${milestone.title}`
+                        : `🏅 ${milestone.title}`}
+                  </span>
+                ))
+              ) : (
+                <p className="text-sm leading-6 text-slate-600">
+                  No streak milestone unlocked yet.
+                </p>
+              )}
+            </div>
+          </div>
+        </aside>
       </header>
 
-      <section className="quest-content quest-card overflow-hidden p-5 sm:p-7">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+      <section className="quest-content grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
+        <div className="quest-card overflow-hidden p-5 sm:p-7">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-slate-500">Challenge</p>
-            <p className="mt-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-slate-600">
-              {exerciseTypeMeta.badge}
-            </p>
+            <p className="quest-kicker">Prompt</p>
             {currentExercise.supportText ? (
               <p className="mt-3 text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
                 Context: {currentExercise.supportText}
               </p>
             ) : null}
-            <p className="mt-3 text-4xl font-black text-slate-800 sm:text-5xl">{currentExercise.noun}</p>
+            <p className="mt-4 text-4xl font-black text-slate-800 sm:text-5xl">
+              {currentExercise.noun}
+            </p>
           </div>
-          <div className="rounded-[24px] bg-gradient-to-br from-amber-100 via-orange-100 to-emerald-100 px-5 py-4 text-sm font-bold text-slate-700 shadow-inner">
-            {exerciseTypeMeta.helper}
-          </div>
-        </div>
 
-        <div className="mt-6 rounded-[24px] border border-amber-100 bg-gradient-to-r from-amber-50/90 to-orange-50/90 p-4 sm:p-5">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.22em] text-amber-900">Hint panel</p>
-              <p className="mt-1 text-sm leading-6 text-slate-700">
-                Use a hint if you are unsure. You will still learn the rule, but you earn fewer gems.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={handleUseHint}
-              disabled={usedHint || hasAnswered}
-              className="inline-flex items-center justify-center rounded-full border border-amber-200 bg-white/90 px-4 py-2 text-sm font-bold text-amber-900 transition disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {usedHint ? "✨ Hint used" : "✨ Show hint"}
-            </button>
+          <div className="mt-6 grid gap-3">
+            {currentExercise.options.map((option) => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => handleAnswer(option)}
+                disabled={hasAnswered}
+                className={`rounded-[24px] border px-5 py-4 text-left text-lg font-black transition ${getOptionState(option)} disabled:cursor-not-allowed`}
+              >
+                {option}
+              </button>
+            ))}
           </div>
-          <div className="mt-3 rounded-[18px] bg-white/70 px-4 py-3 text-sm leading-6 text-slate-600">
-            {usedHint ? currentExercise.hint : "No hint open yet. Try the question first if you can."}
-          </div>
-        </div>
 
-        <div className="mt-6 grid gap-3">
-          {currentExercise.options.map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => handleAnswer(option)}
-              disabled={hasAnswered}
-              className={`rounded-[24px] border px-5 py-4 text-left text-lg font-black transition ${getOptionState(option)} disabled:cursor-not-allowed`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-
-        {currentResult && feedbackContent ? (
-          <div className={`mt-6 rounded-[28px] border p-5 sm:p-6 ${feedbackContent.toneClass}`}>
-            <h2 className="text-xl font-black text-slate-800">{feedbackContent.title}</h2>
-            <p className="mt-2 text-sm font-semibold text-slate-700">{feedbackContent.summary}</p>
-            <div className="mt-4 rounded-[20px] bg-white/70 p-4">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Explanation</p>
-              <p className="mt-2 text-slate-700">{currentExercise.explanation}</p>
-            </div>
-            <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-700">
-              <span className="quest-chip quest-chip-gem">
-                Gems earned {currentResult.gemsEarned + currentResult.bonusGemsEarned}
-              </span>
-              <span className="quest-chip">Hint {currentResult.usedHint ? "used" : "not used"}</span>
-              <span className="quest-chip quest-chip-streak">Streak {currentResult.streakAfterAnswer}</span>
-              {currentResult.bonusGemsEarned > 0 ? (
-                <span className="quest-chip bg-emerald-100 font-bold text-emerald-800">
-                  3-correct bonus +{currentResult.bonusGemsEarned}
+          {currentResult && feedbackContent ? (
+            <div className={`mt-6 rounded-[28px] border p-5 sm:p-6 ${feedbackContent.toneClass}`}>
+              <h2
+                ref={feedbackHeadingRef}
+                tabIndex={-1}
+                className="text-xl font-black text-slate-800"
+              >
+                {feedbackContent.title}
+              </h2>
+              <p className="mt-2 text-sm font-semibold text-slate-700">{feedbackContent.summary}</p>
+              <div className="mt-4 rounded-[20px] bg-white/70 p-4">
+                <p className="quest-kicker">Explanation</p>
+                <p className="mt-2 text-slate-700">{currentExercise.explanation}</p>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-700">
+                <span className="quest-chip quest-chip-gem">
+                  Gems earned {currentResult.gemsEarned + currentResult.bonusGemsEarned}
                 </span>
-              ) : null}
+                <span className="quest-chip">Hint {currentResult.usedHint ? "used" : "not used"}</span>
+                <span className="quest-chip quest-chip-streak">
+                  Streak {currentResult.streakAfterAnswer}
+                </span>
+                {currentResult.isCorrect && currentResult.usedHint ? (
+                  <span className="quest-chip bg-amber-100 font-bold text-amber-900">
+                    Combo reset by hint
+                  </span>
+                ) : null}
+                {currentResult.bonusGemsEarned > 0 ? (
+                  <span className="quest-chip bg-emerald-100 font-bold text-emerald-800">
+                    🔥 Streak reward +{currentResult.bonusGemsEarned}
+                  </span>
+                ) : null}
+                {currentResult.streakAfterAnswer === 5 ? (
+                  <span className="quest-chip bg-amber-100 font-bold text-amber-900">
+                    🧰 Small chest opened
+                  </span>
+                ) : null}
+                {currentResult.streakAfterAnswer === 10 ? (
+                  <span className="quest-chip bg-sky-100 font-bold text-sky-900">
+                    🏅 Perfect combo badge
+                  </span>
+                ) : null}
+              </div>
+              <button type="button" onClick={handleNext} className="quest-button-primary mt-5">
+                {currentIndex === exercises.length - 1 ? "See results" : "Next question"}
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={handleNext}
-              className="quest-button-primary mt-5"
-            >
-              {currentIndex === exercises.length - 1 ? "See results" : "Next"}
-            </button>
+          ) : null}
+        </div>
+
+        <aside className="quest-card p-5 sm:p-6">
+          <p className="quest-kicker">Hint panel</p>
+          <h2 className="mt-3 quest-panel-title">Use support only when needed</h2>
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            Hints keep the run moving, but they reduce the reward for that answer.
+          </p>
+
+          <button
+            type="button"
+            onClick={handleUseHint}
+            disabled={usedHint || hasAnswered}
+            className="quest-button-secondary mt-5 w-full disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {usedHint ? "Hint already used" : "Show hint"}
+          </button>
+
+          <div
+            className="mt-4 rounded-[24px] border border-amber-100 bg-gradient-to-r from-amber-50/90 to-orange-50/90 p-4"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <p className="quest-kicker text-amber-900">Hint text</p>
+            <p className="mt-2 text-sm leading-6 text-slate-700">
+              {usedHint ? currentExercise.hint : "No hint open yet. Try the answer first if you can."}
+            </p>
           </div>
-        ) : null}
+        </aside>
       </section>
     </main>
   );

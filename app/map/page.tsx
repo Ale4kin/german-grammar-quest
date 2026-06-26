@@ -1,8 +1,14 @@
 import Link from "next/link";
+import { MapCompletionView } from "@/components/game/map-completion-view";
+import { MapProgressPanel } from "@/components/game/map-progress-panel";
+import { StatCard } from "@/components/ui/stat-card";
 import { mockAvatars } from "@/data/avatars";
 import { mockCountries } from "@/data/countries";
+import { getGameMode } from "@/data/game-modes";
 import { mockKingdoms } from "@/data/kingdoms";
 import { mockLessons } from "@/data/lessons";
+import { getLessonByCountryId } from "@/lib/game/curriculum";
+import { buildLessonHref } from "@/lib/game/routes";
 
 const worldIcons: Record<string, string> = {
   articles: "📜",
@@ -21,7 +27,7 @@ const worldRoutes = mockKingdoms
       .filter((country) => country.kingdomId === kingdom.id)
       .sort((left, right) => left.sortOrder - right.sortOrder)
       .map((country) => {
-        const lesson = mockLessons.find((entry) => entry.countryId === country.id);
+        const lesson = getLessonByCountryId(country.id);
 
         return {
           ...country,
@@ -33,6 +39,7 @@ const worldRoutes = mockKingdoms
       ...kingdom,
       icon: worldIcons[kingdom.id] ?? "🗺️",
       countries,
+      readyTopics: countries.filter((country) => country.lesson).length,
     };
   });
 
@@ -45,22 +52,39 @@ type MapPageProps = {
 export default async function MapPage({ searchParams }: MapPageProps) {
   const params = searchParams ? await searchParams : undefined;
   const selectedAvatar = mockAvatars.find((avatar) => avatar.id === params?.avatar) ?? null;
+  const readyLessons = mockLessons.length;
+  const totalTopics = mockCountries.length;
+  const explorerMode = getGameMode("explorer");
 
   return (
-    <main className="quest-page">
-      <header className="quest-content space-y-4">
-        <h1 className="quest-title text-4xl sm:text-5xl">Quest map</h1>
-        <p className="quest-subtitle max-w-2xl">
-          Follow a little grammar trail through soft forest nodes, chapter cards, and milestone rewards.
-        </p>
-      </header>
+    <main id="main-content" className="quest-page" tabIndex={-1}>
+      <header className="quest-content grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="quest-card p-6 sm:p-7">
+          <p className="quest-kicker">Study map</p>
+          <h1 className="mt-3 quest-title text-4xl sm:text-5xl">Choose the next topic</h1>
+          <p className="mt-3 quest-subtitle max-w-2xl">
+            The map now works better as a curriculum browser: worlds, topics,
+            lesson availability, and entry points are all visible without extra
+            onboarding copy.
+          </p>
+          <div className="mt-4 rounded-[20px] bg-white/72 px-4 py-3 text-sm leading-6 text-slate-700">
+            <span className="font-black">Mode: {explorerMode.name}</span>
+            <br />
+            {explorerMode.summary}
+          </div>
 
-      <section className="quest-content grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="quest-card p-5 sm:p-6">
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            <StatCard label="Worlds" value={worldRoutes.length} />
+            <StatCard label="Topics" value={totalTopics} />
+            <StatCard label="Ready lessons" value={readyLessons} />
+          </div>
+        </div>
+
+        <aside className="quest-card p-6 sm:p-7">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500">Profile avatar</p>
-              <h2 className="mt-2 text-2xl font-black text-slate-800">
+              <p className="quest-kicker">Profile</p>
+              <h2 className="mt-3 quest-panel-title">
                 {selectedAvatar ? selectedAvatar.name : "Guest adventurer"}
               </h2>
             </div>
@@ -68,83 +92,40 @@ export default async function MapPage({ searchParams }: MapPageProps) {
               {selectedAvatar ? selectedAvatar.emoji : "🧝"}
             </div>
           </div>
+
           <p className="mt-4 text-sm leading-6 text-slate-600">
             {selectedAvatar
               ? selectedAvatar.description
-              : "You can explore the app without an avatar. Later, signed-in learners can choose and change one from their profile."}
+              : "Avatar selection is optional and behaves like a profile cosmetic, not a required setup step."}
           </p>
-          <Link href="/avatar" className="quest-button-secondary mt-5 w-full">
-            {selectedAvatar ? "Change avatar" : "Open avatar settings"}
-          </Link>
-        </div>
 
-        <div className="quest-card p-5 sm:p-6">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500">Journey setup</p>
-              <h2 className="mt-2 text-2xl font-black text-slate-800">Grammar Quest Atlas</h2>
-            </div>
-            <div className="quest-chip quest-chip-gem">💎 Reward path</div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <Link href="/profile" className="quest-button-secondary w-full">
+              Open profile
+            </Link>
+            <Link href={buildLessonHref("a1-articles")} className="quest-button-primary w-full">
+              Resume active lesson
+            </Link>
           </div>
-          <p className="mt-4 text-slate-600">
-            Explore the grammar worlds in order, or jump into the first ready lesson inside Articles. Avatar choice is optional and behaves like a profile setting, not a required onboarding step.
-          </p>
-        </div>
-      </section>
+        </aside>
+      </header>
 
       <section className="quest-content quest-card quest-map-grid overflow-hidden p-5 sm:p-7">
-        <div className="grid gap-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-slate-500">World route</p>
+            <p className="quest-kicker">Curriculum route</p>
+            <h2 className="mt-2 quest-panel-title">Grammar worlds and topics</h2>
           </div>
-
-          <div className="grid gap-5">
-            {worldRoutes.map((world) => (
-              <article key={world.id} className="quest-card p-5 sm:p-6">
-                <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
-                  <div className="max-w-2xl">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-300 to-emerald-500 text-2xl shadow-md">
-                        {world.icon}
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500">World {world.sortOrder}</p>
-                        <h2 className="text-2xl font-black text-slate-800">{world.name}</h2>
-                      </div>
-                    </div>
-                    <p className="mt-4 text-slate-600">{world.description}</p>
-                  </div>
-                  <div className="quest-chip">{world.countries.length} topics</div>
-                </div>
-
-                <div className="mt-5 grid gap-3 lg:grid-cols-2">
-                  {world.countries.map((country) => (
-                    <div key={country.id} className="rounded-[24px] bg-white/78 p-4 shadow-sm">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <p className="text-sm font-bold text-slate-800">{country.name}</p>
-                          <p className="mt-2 text-sm leading-6 text-slate-600">{country.description}</p>
-                        </div>
-                        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                          {country.lesson ? "Ready" : "Soon"}
-                        </span>
-                      </div>
-                      {country.lesson ? (
-                        <Link href={`/lesson/${country.lesson.id}`} className="quest-button-primary mt-4 w-full">
-                          Open lesson
-                        </Link>
-                      ) : (
-                        <div className="mt-4 rounded-full border border-dashed border-slate-300 px-4 py-2 text-center text-sm font-semibold text-slate-500">
-                          Coming soon
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
+          <p className="text-sm font-semibold text-slate-600">
+            Ready topics open directly into their lesson briefing.
+          </p>
         </div>
+
+        <MapCompletionView worlds={worldRoutes} />
+      </section>
+
+      <section className="quest-content">
+        <MapProgressPanel />
       </section>
     </main>
   );
