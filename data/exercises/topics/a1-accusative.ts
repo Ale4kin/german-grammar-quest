@@ -2,202 +2,161 @@ import type { Exercise } from "@/types";
 
 export const a1_accusative: Exercise[] = [
   {
-    "id": "ex-301",
-    "lessonId": "a1-accusative",
-    "type": "case-form",
-    "prompt": "Choose the best form for the direct object. The person is new, not known yet.",
-    "noun": "Ich sehe ___ Mann.",
-    "options": [
-      "einen",
-      "den",
-      "dem"
-    ],
-    "correctAnswer": "einen",
-    "hint": "The noun is masculine and new information.",
-    "explanation": "If the man is not known yet, German uses the indefinite accusative form: einen Mann.",
-    "difficulty": "A1"
+    id: "ex-301",
+    lessonId: "a1-accusative",
+    type: "case-form",
+    prompt: "Choose the correct accusative form for the direct object.",
+    noun: "Da steht ein Koffer. Ich nehme ___ Koffer.",
+    options: ["den", "der", "dem"],
+    correctAnswer: "den",
+    hint: "Koffer is masculine. In the accusative, der becomes den.",
+    explanation:
+      "Koffer is masculine. As a direct object, der Koffer changes to den Koffer: Ich nehme den Koffer.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-302",
-    "lessonId": "a1-accusative",
-    "type": "case-form",
-    "prompt": "Choose the best form for the direct object. The person was already mentioned.",
-    "noun": "Da ist eine Frau. Wir besuchen ___ Frau.",
-    "options": [
-      "die",
-      "eine",
-      "den"
-    ],
-    "correctAnswer": "die",
-    "hint": "The second sentence talks about the same woman again.",
-    "explanation": "Because it is now a specific known woman, German uses the definite form: die Frau.",
-    "difficulty": "A1"
+    id: "ex-302",
+    lessonId: "a1-accusative",
+    type: "case-form",
+    prompt: "Choose the correct accusative form for the direct object.",
+    noun: "Hier liegt ein Brief. Ich lese ___ Brief.",
+    options: ["den", "der", "dem"],
+    correctAnswer: "den",
+    hint: "Brief is masculine and is the direct object of lese.",
+    explanation:
+      "The question is: Was lese ich? The answer is a masculine object, so der Brief becomes den Brief.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-303",
-    "lessonId": "a1-accusative",
-    "type": "case-form",
-    "prompt": "Choose the best form for the direct object. The thing is new information.",
-    "noun": "Das Kind isst ___ Brot.",
-    "options": [
-      "ein",
-      "das",
-      "einen"
-    ],
-    "correctAnswer": "ein",
-    "hint": "Brot is neuter, and the sentence introduces it as a new thing.",
-    "explanation": "If the bread is new and not specific, German uses the indefinite form: ein Brot.",
-    "difficulty": "A1"
+    id: "ex-303",
+    lessonId: "a1-accusative",
+    type: "case-form",
+    prompt: "Choose the correct accusative form with an indefinite article.",
+    noun: "Der Junge kauft ___ Ball.",
+    options: ["einen", "ein", "eine"],
+    correctAnswer: "einen",
+    hint: "Ball is masculine. In the accusative, ein becomes einen.",
+    explanation:
+      "Ball is masculine and is the direct object of kauft. Masculine ein changes to einen: einen Ball.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-304",
-    "lessonId": "a1-accusative",
-    "type": "case-form",
-    "prompt": "Choose the best form for the direct object. The guests are right there and specific.",
-    "noun": "Hier sitzen Gäste. Die Mutter zählt ___ Gäste.",
-    "options": [
-      "die",
-      "den",
-      "der"
-    ],
-    "correctAnswer": "die",
-    "hint": "The second sentence refers to the same group again.",
-    "explanation": "In the accusative plural, German uses die for a specific known group: die Gäste.",
-    "difficulty": "A1"
+    id: "ex-304",
+    lessonId: "a1-accusative",
+    type: "case-form",
+    prompt: "Choose the correct accusative form with an indefinite article.",
+    noun: "Wir brauchen ___ Tisch.",
+    options: ["einen", "ein", "eine"],
+    correctAnswer: "einen",
+    hint: "Tisch is masculine and is the object of brauchen.",
+    explanation:
+      "After brauchen, the noun is a direct object. Masculine ein becomes einen: Wir brauchen einen Tisch.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-305",
-    "lessonId": "a1-accusative",
-    "type": "phrase-choice",
-    "prompt": "Choose the correct direct object form after the verb.",
-    "noun": "Dort steht ein Mantel. Du probierst ___ an.",
-    "supportText": "Ask: What do you try on?",
-    "options": [
-      "den Mantel",
-      "der Mantel",
-      "dem Mantel"
-    ],
-    "correctAnswer": "den Mantel",
-    "hint": "Mantel is masculine and becomes the direct object.",
-    "explanation": "The object is masculine, so ein mentioned before becomes den Mantel here.",
-    "difficulty": "A1"
+    id: "ex-305",
+    lessonId: "a1-accusative",
+    type: "case-form",
+    prompt: "Choose the correct accusative form for a feminine noun.",
+    noun: "Da liegt eine Jacke. Sie zieht ___ Jacke an.",
+    options: ["die", "der", "den"],
+    correctAnswer: "die",
+    hint: "Jacke is feminine. Feminine articles do not change in the accusative.",
+    explanation:
+      "Jacke is feminine. In the accusative, die stays die: Sie zieht die Jacke an.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-306",
-    "lessonId": "a1-accusative",
-    "type": "phrase-choice",
-    "prompt": "Choose the correct direct object form after the verb.",
-    "noun": "Hier liegt eine Tafel Schokolade. Das Kind isst ___.",
-    "supportText": "Ask: What does the child eat?",
-    "options": [
-      "die Schokolade",
-      "der Schokolade",
-      "den Schokolade"
-    ],
-    "correctAnswer": "die Schokolade",
-    "hint": "Schokolade is feminine, so the article stays die.",
-    "explanation": "The object is feminine, so we say die Schokolade.",
-    "difficulty": "A1"
+    id: "ex-306",
+    lessonId: "a1-accusative",
+    type: "case-form",
+    prompt: "Choose the correct accusative form for a feminine noun.",
+    noun: "Die Mutter kauft ___ Zeitung.",
+    options: ["eine", "ein", "einen"],
+    correctAnswer: "eine",
+    hint: "Zeitung is feminine. Eine stays eine in the accusative.",
+    explanation:
+      "Zeitung is feminine and is the object of kauft. Feminine eine does not change: eine Zeitung.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-307",
-    "lessonId": "a1-accusative",
-    "type": "phrase-choice",
-    "prompt": "Choose the correct direct object form after the verb.",
-    "noun": "Hier sind Tassen. Wir spülen ___.",
-    "supportText": "Ask: What do we wash?",
-    "options": [
-      "die Tassen",
-      "den Tassen",
-      "der Tassen"
-    ],
-    "correctAnswer": "die Tassen",
-    "hint": "Tassen is plural, and plural accusative usually keeps die.",
-    "explanation": "The direct object is plural, so we say die Tassen.",
-    "difficulty": "A1"
+    id: "ex-307",
+    lessonId: "a1-accusative",
+    type: "case-form",
+    prompt: "Choose the correct accusative form for a neuter noun.",
+    noun: "Das Kind öffnet ___ Fenster.",
+    options: ["das", "den", "der"],
+    correctAnswer: "das",
+    hint: "Fenster is neuter. Das stays das in the accusative.",
+    explanation:
+      "Fenster is neuter. In the accusative, das stays das: Das Kind öffnet das Fenster.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-308",
-    "lessonId": "a1-accusative",
-    "type": "case-form",
-    "prompt": "Choose the correct article form after an indefinite article.",
-    "noun": "Der Vater öffnet ___ Koffer.",
-    "supportText": "The suitcase is new information.",
-    "options": [
-      "einen",
-      "ein",
-      "den"
-    ],
-    "correctAnswer": "einen",
-    "hint": "Koffer is masculine and not known yet.",
-    "explanation": "A new masculine direct object takes the indefinite accusative form: einen Koffer.",
-    "difficulty": "A1"
+    id: "ex-308",
+    lessonId: "a1-accusative",
+    type: "case-form",
+    prompt: "Choose the correct accusative form for a neuter noun.",
+    noun: "Ich schreibe ___ Wort.",
+    options: ["ein", "einen", "eine"],
+    correctAnswer: "ein",
+    hint: "Wort is neuter. Ein stays ein in the accusative.",
+    explanation:
+      "Wort is neuter and is the direct object of schreibe. Neuter ein does not change: ein Wort.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-309",
-    "lessonId": "a1-accusative",
-    "type": "question-word",
-    "prompt": "Choose the correct accusative question word.",
-    "noun": "___ ruft die Mutter?",
-    "options": [
-      "Wen",
-      "Wer",
-      "Wem"
-    ],
-    "correctAnswer": "Wen",
-    "hint": "You ask about the direct object, not the subject.",
-    "explanation": "Use Wen? to ask about a person in the accusative.",
-    "difficulty": "A1"
+    id: "ex-309",
+    lessonId: "a1-accusative",
+    type: "case-form",
+    prompt: "Choose the correct accusative form for a plural noun.",
+    noun: "Hier sind Tassen. Wir spülen ___ Tassen.",
+    options: ["die", "den", "der"],
+    correctAnswer: "die",
+    hint: "Tassen is plural. Die stays die in the accusative plural.",
+    explanation:
+      "Tassen is plural and is the direct object. In the accusative plural, die stays die: die Tassen.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-310",
-    "lessonId": "a1-accusative",
-    "type": "question-word",
-    "prompt": "Choose the correct accusative question word.",
-    "noun": "___ öffnet der Vater?",
-    "options": [
-      "Was",
-      "Wer",
-      "Wessen"
-    ],
-    "correctAnswer": "Was",
-    "hint": "The question is about a thing that receives the action.",
-    "explanation": "Use Was? to ask about a thing in the accusative.",
-    "difficulty": "A1"
+    id: "ex-310",
+    lessonId: "a1-accusative",
+    type: "case-form",
+    prompt: "Choose the correct accusative form for a plural noun.",
+    noun: "Die Lehrerin kontrolliert ___ Hefte.",
+    options: ["die", "den", "das"],
+    correctAnswer: "die",
+    hint: "Hefte is plural.",
+    explanation:
+      "Hefte is plural. In the accusative plural, the article is die: Die Lehrerin kontrolliert die Hefte.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-311",
-    "lessonId": "a1-accusative",
-    "type": "case-form",
-    "prompt": "Choose the correct weak noun form in the accusative.",
-    "noun": "Da ist ein Junge. Ich sehe ___ Jungen.",
-    "options": [
-      "den",
-      "einen",
-      "dem"
-    ],
-    "correctAnswer": "den",
-    "hint": "The second sentence refers to the same boy again, and Junge is a weak noun.",
-    "explanation": "Because the boy is now specific, German uses den Jungen. Weak masculine nouns also keep the -n ending.",
-    "difficulty": "A1"
+    id: "ex-311",
+    lessonId: "a1-accusative",
+    type: "question-word",
+    prompt: "Choose the correct question word for a person as a direct object.",
+    noun: "___ besucht die Familie?",
+    options: ["Wen", "Wer", "Wem"],
+    correctAnswer: "Wen",
+    hint: "Ask about a person who receives the action.",
+    explanation:
+      "For a person as a direct object, German uses Wen?: Wen besucht die Familie?",
+    difficulty: "A1",
   },
   {
-    "id": "ex-312",
-    "lessonId": "a1-accusative",
-    "type": "case-form",
-    "prompt": "Choose the correct weak noun phrase in the accusative.",
-    "noun": "Die Lehrerin fragt ___ .",
-    "supportText": "The noun is Student, and the student is not specific yet.",
-    "options": [
-      "einen Studenten",
-      "den Studenten",
-      "der Student"
-    ],
-    "correctAnswer": "einen Studenten",
-    "hint": "Student is a weak masculine noun, and the sentence introduces one student as a new object.",
-    "explanation": "A new masculine weak noun takes the indefinite accusative form: einen Studenten.",
-    "difficulty": "A1"
-  }
+    id: "ex-312",
+    lessonId: "a1-accusative",
+    type: "question-word",
+    prompt: "Choose the correct question word for a thing as a direct object.",
+    noun: "___ liest Herr Schmidt?",
+    options: ["Was", "Wer", "Wem"],
+    correctAnswer: "Was",
+    hint: "Ask about a thing that receives the action.",
+    explanation:
+      "For a thing as a direct object, German uses Was?: Was liest Herr Schmidt?",
+    difficulty: "A1",
+  },
 ] as Exercise[];
 
 export default a1_accusative;

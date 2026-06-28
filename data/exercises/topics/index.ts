@@ -17,6 +17,7 @@ import { a1_present_weak_verbs } from "./a1-present-weak-verbs";
 import { a1_present_irregular_verbs } from "./a1-present-irregular-verbs";
 import { a1_present_strong_verbs } from "./a1-present-strong-verbs";
 import { a1_present_modal_verbs } from "./a1-present-modal-verbs";
+import { a1_cases_intro } from "./a1-cases-intro";
 import { getGrammarSkillIdsForLesson } from "@/data/grammar-skills";
 import type { Exercise } from "@/types";
 
@@ -24,6 +25,7 @@ export const allTopics = [
   a1_articles,
   a1_indefinite_articles,
   a1_zero_article,
+  a1_cases_intro,
   a1_accusative,
   a1_dative,
   a1_genitive,
@@ -45,25 +47,30 @@ export const allTopics = [
 function withGrammarSkillIds(exercise: Exercise): Exercise {
   return {
     ...exercise,
-    grammarSkillIds:
-      exercise.grammarSkillIds?.length
-        ? exercise.grammarSkillIds
-        : getGrammarSkillIdsForLesson(exercise.lessonId),
+    grammarSkillIds: exercise.grammarSkillIds?.length
+      ? exercise.grammarSkillIds
+      : getGrammarSkillIdsForLesson(exercise.lessonId),
   };
 }
 
-export const topicsMockExercises = ([] as Exercise[]).concat(...allTopics).map(withGrammarSkillIds);
+export const topicsMockExercises = ([] as Exercise[])
+  .concat(...allTopics)
+  .map(withGrammarSkillIds);
 
-export const exercisesByLesson = topicsMockExercises.reduce<Record<string, Exercise[]>>((map, exercise) => {
-    if (!map[exercise.lessonId]) {
-      map[exercise.lessonId] = [];
-    }
-    map[exercise.lessonId].push(exercise);
-  
+export const exercisesByLesson = topicsMockExercises.reduce<
+  Record<string, Exercise[]>
+>((map, exercise) => {
+  if (!map[exercise.lessonId]) {
+    map[exercise.lessonId] = [];
+  }
+  map[exercise.lessonId].push(exercise);
+
   return map;
 }, {});
 
-export const exercisesById = topicsMockExercises.reduce<Record<string, Exercise>>((map, exercise) => {
+export const exercisesById = topicsMockExercises.reduce<
+  Record<string, Exercise>
+>((map, exercise) => {
   map[exercise.id] = exercise;
   return map;
 }, {});

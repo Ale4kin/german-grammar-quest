@@ -2,197 +2,164 @@ import type { Exercise } from "@/types";
 
 export const a1_zero_article: Exercise[] = [
   {
-    "id": "ex-201",
-    "lessonId": "a1-zero-article",
-    "type": "article-choice",
-    "prompt": "Choose the best article form for the profession after sein.",
-    "noun": "Er ist ___ Lehrer.",
-    "options": [
-      "—",
-      "ein",
-      "der"
-    ],
-    "correctAnswer": "—",
-    "hint": "After sein, professions often have no article in simple statements.",
-    "explanation": "We say Er ist Lehrer, not ein Lehrer here.",
-    "difficulty": "A1"
+    id: "ex-201",
+    lessonId: "a1-zero-article",
+    type: "article-choice",
+    prompt:
+      "Choose the best form. Professions after sein often have no article.",
+    noun: "Er ist ___ Lehrer.",
+    options: ["—", "ein", "der"],
+    correctAnswer: "—",
+    hint: "This is a simple profession statement.",
+    explanation:
+      "In German, professions after sein usually have no article when we simply say what someone is: Er ist Lehrer.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-202",
-    "lessonId": "a1-zero-article",
-    "type": "article-choice",
-    "prompt": "Choose the best article form for the profession after sein.",
-    "noun": "Sie ist ___ Studentin.",
-    "options": [
-      "—",
-      "eine",
-      "die"
-    ],
-    "correctAnswer": "—",
-    "hint": "This is a simple job or role statement.",
-    "explanation": "German often drops the article in simple role statements: Sie ist Studentin.",
-    "difficulty": "A1"
+    id: "ex-202",
+    lessonId: "a1-zero-article",
+    type: "article-choice",
+    prompt:
+      "Choose the best form. Professions after sein often have no article.",
+    noun: "Sie ist ___ Ärztin.",
+    options: ["—", "eine", "die"],
+    correctAnswer: "—",
+    hint: "This is a simple job or role statement.",
+    explanation:
+      "When we name a profession after sein, German usually uses no article: Sie ist Ärztin.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-203",
-    "lessonId": "a1-zero-article",
-    "type": "article-choice",
-    "prompt": "Choose the best article form for a language.",
-    "noun": "Ich lerne ___ Deutsch.",
-    "options": [
-      "—",
-      "das",
-      "ein"
-    ],
-    "correctAnswer": "—",
-    "hint": "Languages often appear without an article.",
-    "explanation": "We say Ich lerne Deutsch.",
-    "difficulty": "A1"
+    id: "ex-203",
+    lessonId: "a1-zero-article",
+    type: "article-choice",
+    prompt:
+      "Choose the best form. Professions after arbeiten als usually have no article.",
+    noun: "Mein Vater arbeitet als ___ Ingenieur.",
+    options: ["—", "ein", "der"],
+    correctAnswer: "—",
+    hint: "After als + profession, German usually uses no article.",
+    explanation:
+      "After als, professions normally appear without an article: Mein Vater arbeitet als Ingenieur.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-204",
-    "lessonId": "a1-zero-article",
-    "type": "article-choice",
-    "prompt": "Choose the best article form for a school subject.",
-    "noun": "Heute haben wir ___ Physik.",
-    "options": [
-      "—",
-      "die",
-      "eine"
-    ],
-    "correctAnswer": "—",
-    "hint": "School subjects usually have no article.",
-    "explanation": "German says Heute haben wir Physik.",
-    "difficulty": "A1"
+    id: "ex-204",
+    lessonId: "a1-zero-article",
+    type: "article-choice",
+    prompt: "Choose the best form. Nationalities often have no article.",
+    noun: "Meine Freundin ist ___ Polin.",
+    options: ["—", "eine", "die"],
+    correctAnswer: "—",
+    hint: "This is a simple nationality statement.",
+    explanation:
+      "When we simply say someone's nationality, German normally uses no article: Sie ist Polin.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-205",
-    "lessonId": "a1-zero-article",
-    "type": "article-choice",
-    "prompt": "Choose the best article form for a general plural noun.",
-    "noun": "Kinder spielen mit ___ Bällen.",
-    "options": [
-      "—",
-      "den",
-      "die"
-    ],
-    "correctAnswer": "—",
-    "hint": "This talks about balls in general, not specific balls.",
-    "explanation": "General plural nouns often have no article: Kinder spielen mit Bällen.",
-    "difficulty": "A1"
+    id: "ex-205",
+    lessonId: "a1-zero-article",
+    type: "article-choice",
+    prompt: "Choose the best form. Nationalities often have no article.",
+    noun: "Er ist ___ Amerikaner.",
+    options: ["—", "ein", "der"],
+    correctAnswer: "—",
+    hint: "Nationalities behave like roles here.",
+    explanation:
+      "In simple nationality statements, German usually uses no article: Er ist Amerikaner.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-206",
-    "lessonId": "a1-zero-article",
-    "type": "article-choice",
-    "prompt": "Choose the best article form for a general plural noun.",
-    "noun": "Wir schreiben ___ Briefe.",
-    "options": [
-      "—",
-      "die",
-      "einige"
-    ],
-    "correctAnswer": "—",
-    "hint": "The sentence means letters in general, not some known letters.",
-    "explanation": "German often leaves out the article with general plural nouns: Wir schreiben Briefe.",
-    "difficulty": "A1"
+    id: "ex-206",
+    lessonId: "a1-zero-article",
+    type: "article-choice",
+    prompt: "Choose the best form for a language.",
+    noun: "Ich lerne ___ Deutsch.",
+    options: ["—", "das", "ein"],
+    correctAnswer: "—",
+    hint: "Languages usually appear without an article.",
+    explanation:
+      "Languages normally have no article in this use: Ich lerne Deutsch.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-207",
-    "lessonId": "a1-zero-article",
-    "prompt": "Choose the missing part of this fixed expression.",
-    "type": "phrase-choice",
-    "noun": "Nach der Schule gehe ich ___ Hause.",
-    "options": [
-      "nach",
-      "zu",
-      "nach dem"
-    ],
-    "correctAnswer": "nach",
-    "hint": "Think of the full phrase nach Hause gehen.",
-    "explanation": "The fixed expression is nach Hause gehen. German uses nach plus Hause, with no article.",
-    "difficulty": "A1"
+    id: "ex-207",
+    lessonId: "a1-zero-article",
+    type: "article-choice",
+    prompt: "Choose the best form for a school subject.",
+    noun: "Heute haben wir ___ Mathematik.",
+    options: ["—", "die", "eine"],
+    correctAnswer: "—",
+    hint: "School subjects usually have no article.",
+    explanation:
+      "Names of school subjects are normally used without an article: Heute haben wir Mathematik.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-208",
-    "lessonId": "a1-zero-article",
-    "prompt": "Choose the missing part of this fixed expression.",
-    "type": "phrase-choice",
-    "noun": "Am Abend sind wir ___ Hause.",
-    "options": [
-      "zu",
-      "im",
-      "zu dem"
-    ],
-    "correctAnswer": "zu",
-    "hint": "Think of the full phrase zu Hause sein.",
-    "explanation": "The fixed expression is zu Hause sein. German uses zu plus Hause, with no article.",
-    "difficulty": "A1"
+    id: "ex-208",
+    lessonId: "a1-zero-article",
+    type: "article-choice",
+    prompt: "Choose the best form for a university subject.",
+    noun: "Sie studiert ___ Physik.",
+    options: ["—", "die", "eine"],
+    correctAnswer: "—",
+    hint: "Study subjects usually have no article.",
+    explanation:
+      "Subjects of study are normally used without an article: Sie studiert Physik.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-209",
-    "lessonId": "a1-zero-article",
-    "type": "phrase-choice",
-    "prompt": "Choose the best article form in this fixed expression.",
-    "noun": "Die Kinder spielen im Hof ___ Ball.",
-    "options": [
-      "—",
-      "den",
-      "einen"
-    ],
-    "correctAnswer": "—",
-    "hint": "This is a fixed activity phrase, like playing a game.",
-    "explanation": "In the common phrase Ball spielen, German uses no article.",
-    "difficulty": "A1"
+    id: "ex-209",
+    lessonId: "a1-zero-article",
+    type: "article-choice",
+    prompt: "Choose the best form for an indefinite plural noun.",
+    noun: "Wir schreiben ___ Briefe.",
+    options: ["—", "die", "einen"],
+    correctAnswer: "—",
+    hint: "There is no indefinite article in the plural.",
+    explanation:
+      "German has no plural form of ein/eine. For an indefinite plural, we simply say: Wir schreiben Briefe.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-210",
-    "lessonId": "a1-zero-article",
-    "type": "phrase-choice",
-    "prompt": "Choose the best article form in this fixed expression.",
-    "noun": "Bitte nehmen Sie ___ Platz.",
-    "options": [
-      "—",
-      "den",
-      "einen"
-    ],
-    "correctAnswer": "—",
-    "hint": "This is the set phrase Platz nehmen.",
-    "explanation": "The expression is Platz nehmen, so German uses no article here.",
-    "difficulty": "A1"
+    id: "ex-210",
+    lessonId: "a1-zero-article",
+    type: "article-choice",
+    prompt: "Choose the best form for an indefinite plural noun.",
+    noun: "Im Garten wachsen ___ Blumen.",
+    options: ["—", "die", "eine"],
+    correctAnswer: "—",
+    hint: "These are flowers in general, not specific known flowers.",
+    explanation:
+      "For an indefinite plural, German uses no article: Im Garten wachsen Blumen.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-211",
-    "lessonId": "a1-zero-article",
-    "type": "phrase-choice",
-    "prompt": "Choose the best article form when an adjective is added.",
-    "noun": "Sie ist ___ gute Lehrerin.",
-    "options": [
-      "—",
-      "eine",
-      "die"
-    ],
-    "correctAnswer": "eine",
-    "hint": "The adjective changes the pattern.",
-    "explanation": "With an added adjective, German usually uses an article here: eine gute Lehrerin.",
-    "difficulty": "A1"
+    id: "ex-211",
+    lessonId: "a1-zero-article",
+    type: "phrase-choice",
+    prompt: "Choose the missing part of this fixed expression.",
+    noun: "Nach dem Kurs gehe ich ___ Hause.",
+    options: ["nach", "zu", "in das"],
+    correctAnswer: "nach",
+    hint: "Think of the expression nach Hause gehen.",
+    explanation:
+      "The fixed expression is nach Hause gehen. It uses nach and no article.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-212",
-    "lessonId": "a1-zero-article",
-    "type": "phrase-choice",
-    "prompt": "Choose the best article form when the noun is one specific thing.",
-    "noun": "Im Gras liegt ___ Ball.",
-    "options": [
-      "—",
-      "ein",
-      "der"
-    ],
-    "correctAnswer": "ein",
-    "hint": "Here Ball is a real object you can see, not the activity Ball spielen.",
-    "explanation": "This is one actual ball in the grass, so we say ein Ball.",
-    "difficulty": "A1"
-  }
+    id: "ex-212",
+    lessonId: "a1-zero-article",
+    type: "phrase-choice",
+    prompt: "Choose the best article form in this fixed expression.",
+    noun: "Bitte nehmen Sie ___ Platz.",
+    options: ["—", "den", "einen"],
+    correctAnswer: "—",
+    hint: "This is the expression Platz nehmen.",
+    explanation:
+      "The fixed expression is Platz nehmen. German uses no article here: Nehmen Sie Platz.",
+    difficulty: "A1",
+  },
 ] as Exercise[];
 
 export default a1_zero_article;

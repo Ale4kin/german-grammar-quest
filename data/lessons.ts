@@ -10,7 +10,8 @@ export const mockLessons: Lesson[] = [
     difficulty: "A1",
     sortOrder: 1,
     grammarRuleTitle: "Every German noun uses one article.",
-    grammarRuleSummary: "The definite article points to a specific noun: something known, already mentioned, or clear from the situation.",
+    grammarRuleSummary:
+      "The definite article points to a specific noun: something known, already mentioned, or clear from the situation.",
     grammarRuleExamples: [
       {
         article: "der",
@@ -42,13 +43,19 @@ export const mockLessons: Lesson[] = [
     kingdomId: "articles",
     countryId: "indefinite-articles",
     title: "Indefinite Articles",
-    description: "Learn how German uses indefinite articles for new or non-specific nouns.",
+    description:
+      "Learn how German uses indefinite articles for new or non-specific nouns.",
     difficulty: "A1",
     sortOrder: 2,
     grammarRuleTitle: "Indefinite articles introduce a noun in a general way.",
-    grammarRuleSummary: "Use an indefinite article when you mention one new, non-specific thing or person.",
+    grammarRuleSummary:
+      "Use an indefinite article when you mention one new, non-specific thing or person.",
     grammarRuleExamples: [
-      { article: "ein", label: "masculine or neuter", example: "ein Tisch, ein Buch" },
+      {
+        article: "ein",
+        label: "masculine or neuter",
+        example: "ein Tisch, ein Buch",
+      },
       { article: "eine", label: "feminine", example: "eine Lampe" },
       { article: "einen", label: "masculine object", example: "einen Garten" },
     ],
@@ -58,18 +65,21 @@ export const mockLessons: Lesson[] = [
       "With jobs or nationality words, German often adds an indefinite article when an adjective gives more detail: She is a hardworking student.",
       "German also uses it in some comparisons and often after haben, brauchen, and es gibt: He swims like a fish. We have a garden.",
     ],
-    learningTip: "First learn the basic pattern, then notice when masculine nouns change to einen after some verbs.",
+    learningTip:
+      "First learn the basic pattern, then notice when masculine nouns change to einen after some verbs.",
   },
   {
     id: "a1-zero-article",
     kingdomId: "articles",
     countryId: "zero-article",
     title: "Zero Article",
-    description: "Learn common cases where German uses no article before a noun.",
+    description:
+      "Learn common cases where German uses no article before a noun.",
     difficulty: "A1",
     sortOrder: 3,
     grammarRuleTitle: "Sometimes German uses no article.",
-    grammarRuleSummary: "German often leaves the article out with jobs, languages, some plurals, and fixed expressions.",
+    grammarRuleSummary:
+      "German often leaves the article out with jobs, languages, some plurals, and fixed expressions.",
     grammarRuleExamples: [
       { article: "—", label: "profession", example: "Sie ist Lehrerin." },
       { article: "—", label: "language", example: "Ich lerne Deutsch." },
@@ -81,23 +91,84 @@ export const mockLessons: Lesson[] = [
       "Use no article with general plural nouns when you mean things in general, not specific ones: Kinder spielen. Wir schreiben Briefe.",
       "Use no article in some fixed expressions: nach Hause gehen, zu Hause sein, Ball spielen, Platz nehmen.",
     ],
-    learningTip: "If the sentence sounds general, like a label, school subject, or fixed phrase, check whether German wants no article at all.",
+    learningTip:
+      "If the sentence sounds general, like a label, school subject, or fixed phrase, check whether German wants no article at all.",
+  },
+
+  {
+    id: "a1-cases-intro",
+    kingdomId: "nouns",
+    countryId: "cases-intro",
+    title: "German Cases",
+    description:
+      "Understand what German cases are before practicing accusative, dative, and genitive.",
+    difficulty: "A1",
+    sortOrder: 1,
+    grammarRuleTitle: "Cases show the role of a noun in a sentence.",
+    grammarRuleSummary:
+      "A German noun can change its article depending on its role: who does something, what receives the action, who receives something, or whose thing it is.",
+    grammarRuleExamples: [
+      {
+        article: "Nominativ",
+        label: "who or what does something",
+        example: "Der Mann liest.",
+      },
+      {
+        article: "Akkusativ",
+        label: "whom or what the action affects",
+        example: "Ich sehe den Mann.",
+      },
+      {
+        article: "Dativ",
+        label: "to whom or for whom something happens",
+        example: "Ich helfe dem Mann.",
+      },
+      {
+        article: "Genitiv",
+        label: "whose something is",
+        example: "Das Buch des Mannes.",
+      },
+    ],
+    grammarNotes: [
+      "The nominative is usually the subject of the sentence. Ask: Who or what does the action?",
+      "The accusative is often the direct object. Ask: Whom or what does the action affect?",
+      "The dative often marks the receiver or affected person. Ask: To whom, for whom, or whom does it help?",
+      "The genitive often shows possession or connection. Ask: Whose?",
+      "The same noun can appear in different cases depending on its role: der Mann, den Mann, dem Mann, des Mannes.",
+      "For beginners, the most important first step is not memorizing every ending. First learn to recognize the role of the noun in the sentence.",
+    ],
+    learningTip:
+      "Before choosing an article, ask what job the noun has in the sentence: subject, direct object, receiver, or owner.",
   },
   {
     id: "a1-accusative",
     kingdomId: "nouns",
     countryId: "accusative-nouns",
     title: "Accusative",
-    description: "Learn the accusative as the direct-object case in simple sentences.",
+    description:
+      "Learn the accusative as the direct-object case in simple sentences.",
     difficulty: "A1",
     sortOrder: 1,
     grammarRuleTitle: "The accusative often marks the direct object.",
-    grammarRuleSummary: "It answers who or what receives the action in a sentence: Wen? or Was?",
+    grammarRuleSummary:
+      "It answers who or what receives the action in a sentence: Wen? or Was?",
     grammarRuleExamples: [
-      { article: "den", label: "masculine change", example: "Ich sehe den Mann." },
-      { article: "die", label: "feminine stays", example: "Ich sehe die Frau." },
+      {
+        article: "den",
+        label: "masculine change",
+        example: "Ich sehe den Mann.",
+      },
+      {
+        article: "die",
+        label: "feminine stays",
+        example: "Ich sehe die Frau.",
+      },
       { article: "das", label: "neuter stays", example: "Ich sehe das Kind." },
-      { article: "den", label: "weak masculine noun", example: "Ich sehe den Jungen." },
+      {
+        article: "den",
+        label: "weak masculine noun",
+        example: "Ich sehe den Jungen.",
+      },
     ],
     grammarNotes: [
       "Use the accusative for the direct object: the person or thing that receives the action. Ask Wen? for people and Was? for things.",
@@ -107,23 +178,30 @@ export const mockLessons: Lesson[] = [
       "Some masculine nouns are weak nouns and add -n or -en in the accusative too: den Jungen, den Studenten, den Menschen, den Namen.",
       "Feminine nouns do not change their noun ending in the accusative, and most neuter nouns also stay the same in the noun itself.",
     ],
-    learningTip: "First find the verb, then ask who or what gets the action. After that, check whether the object is masculine, because that is where the biggest changes happen.",
+    learningTip:
+      "First find the verb, then ask who or what gets the action. After that, check whether the object is masculine, because that is where the biggest changes happen.",
   },
   {
     id: "a1-dative",
     kingdomId: "nouns",
     countryId: "dative-nouns",
     title: "Dative",
-    description: "Practice the dative as the case often used for the indirect object.",
+    description:
+      "Practice the dative as the case often used for the indirect object.",
     difficulty: "A1",
     sortOrder: 2,
     grammarRuleTitle: "The dative often marks the receiver.",
-    grammarRuleSummary: "It often answers to whom, for whom, or for whose benefit something happens: Wem?",
+    grammarRuleSummary:
+      "It often answers to whom, for whom, or for whose benefit something happens: Wem?",
     grammarRuleExamples: [
       { article: "dem", label: "masculine", example: "Ich helfe dem Mann." },
       { article: "der", label: "feminine", example: "Ich helfe der Frau." },
       { article: "dem", label: "neuter", example: "Ich helfe dem Kind." },
-      { article: "den", label: "plural + -n often added", example: "Ich helfe den Kindern." },
+      {
+        article: "den",
+        label: "plural + -n often added",
+        example: "Ich helfe den Kindern.",
+      },
     ],
     grammarNotes: [
       "Use the dative for the receiver or affected person. Ask Wem? to find it.",
@@ -132,23 +210,33 @@ export const mockLessons: Lesson[] = [
       "Weak masculine nouns also keep their -n or -en form in the dative: dem Jungen, dem Studenten, dem Menschen.",
       "In the plural dative, nouns often add -n if they do not already end in -n or -s: den Kindern, den Freunden, but den Autos.",
     ],
-    learningTip: "First find the person or group that receives something, hears something, or is affected. Then check for the dative article and possible plural -n ending.",
+    learningTip:
+      "First find the person or group that receives something, hears something, or is affected. Then check for the dative article and possible plural -n ending.",
   },
   {
     id: "a1-genitive",
     kingdomId: "nouns",
     countryId: "genitive-nouns",
     title: "Genitive",
-    description: "Get familiar with the genitive as a case of belonging and possession.",
+    description:
+      "Get familiar with the genitive as a case of belonging and possession.",
     difficulty: "A1",
     sortOrder: 3,
     grammarRuleTitle: "The genitive often shows belonging.",
     grammarRuleSummary: "It often answers whose something is: Wessen?",
     grammarRuleExamples: [
-      { article: "des", label: "masculine or neuter", example: "das Auto des Mannes" },
+      {
+        article: "des",
+        label: "masculine or neuter",
+        example: "das Auto des Mannes",
+      },
       { article: "der", label: "feminine", example: "die Tasche der Frau" },
       { article: "der", label: "plural", example: "die Bücher der Kinder" },
-      { article: "des", label: "weak masculine noun", example: "die Tasche des Studenten" },
+      {
+        article: "des",
+        label: "weak masculine noun",
+        example: "die Tasche des Studenten",
+      },
     ],
     grammarNotes: [
       "Use the genitive to show belonging or connection. Ask Wessen? to find it.",
@@ -157,7 +245,8 @@ export const mockLessons: Lesson[] = [
       "Weak masculine nouns keep their -n or -en form in the genitive too: des Studenten, des Jungen, des Menschen.",
       "The genitive often appears in noun groups like das Buch des Lehrers or die Adresse der Firma.",
     ],
-    learningTip: "First decide who owns or belongs to something. Then choose des or der, and check whether the noun itself needs an extra ending like -s, -es, or -en.",
+    learningTip:
+      "First decide who owns or belongs to something. Then choose des or der, and check whether the noun itself needs an extra ending like -s, -es, or -en.",
   },
   {
     id: "a1-personal-pronouns",
@@ -168,17 +257,54 @@ export const mockLessons: Lesson[] = [
     difficulty: "A1",
     sortOrder: 1,
     grammarRuleTitle: "Personal pronouns replace nouns.",
-    grammarRuleSummary: "They help you avoid repeating names and objects again and again.",
+    grammarRuleSummary:
+      "They help you avoid repeating names and objects again and again.",
     grammarRuleExamples: [
-      { article: "ich", label: "first person singular", example: "Ich lerne Deutsch." },
-      { article: "du", label: "second person singular", example: "Du lernst schnell." },
-      { article: "er", label: "third person singular masculine", example: "Er kommt heute." },
-      { article: "sie", label: "third person singular feminine", example: "Sie kommt heute." },
-      { article: "es", label: "third person singular neuter", example: "Das Buch? Ich lese es." },
-      { article: "wir", label: "first person plural", example: "Wir lernen zusammen." },
-      { article: "ihr", label: "second person plural", example: "Ihr spielt im Garten." },
-      { article: "sie", label: "third person plural", example: "Sie wohnen in Berlin." },
-      { article: "Sie", label: "formal you", example: "Kommen Sie aus Hamburg?" },
+      {
+        article: "ich",
+        label: "first person singular",
+        example: "Ich lerne Deutsch.",
+      },
+      {
+        article: "du",
+        label: "second person singular",
+        example: "Du lernst schnell.",
+      },
+      {
+        article: "er",
+        label: "third person singular masculine",
+        example: "Er kommt heute.",
+      },
+      {
+        article: "sie",
+        label: "third person singular feminine",
+        example: "Sie kommt heute.",
+      },
+      {
+        article: "es",
+        label: "third person singular neuter",
+        example: "Das Buch? Ich lese es.",
+      },
+      {
+        article: "wir",
+        label: "first person plural",
+        example: "Wir lernen zusammen.",
+      },
+      {
+        article: "ihr",
+        label: "second person plural",
+        example: "Ihr spielt im Garten.",
+      },
+      {
+        article: "sie",
+        label: "third person plural",
+        example: "Sie wohnen in Berlin.",
+      },
+      {
+        article: "Sie",
+        label: "formal you",
+        example: "Kommen Sie aus Hamburg?",
+      },
     ],
     grammarNotes: [
       "Personal pronouns change with person and number: ich, du, er, sie, es, wir, ihr, sie, Sie.",
@@ -187,7 +313,8 @@ export const mockLessons: Lesson[] = [
       "Es often replaces a neuter noun or a general thing: das Buch -> es, das Auto -> es.",
       "Formal Sie means you in polite speech and is written with a capital S.",
     ],
-    learningTip: "First decide which noun you are replacing. Then check person, number, gender, and case before you choose the pronoun.",
+    learningTip:
+      "First decide which noun you are replacing. Then check person, number, gender, and case before you choose the pronoun.",
   },
   {
     id: "a1-possessive-pronouns",
@@ -198,7 +325,8 @@ export const mockLessons: Lesson[] = [
     difficulty: "A1",
     sortOrder: 2,
     grammarRuleTitle: "Possessive pronouns show who something belongs to.",
-    grammarRuleSummary: "They stand before a noun and agree with the owner, the noun, and often the case.",
+    grammarRuleSummary:
+      "They stand before a noun and agree with the owner, the noun, and often the case.",
     grammarRuleExamples: [
       { article: "mein", label: "my", example: "mein Bruder" },
       { article: "dein", label: "your singular", example: "dein Buch" },
@@ -215,23 +343,38 @@ export const mockLessons: Lesson[] = [
       "Possessive forms also change with case, like article words: meinen Bruder, meiner Mutter, unserem Kind.",
       "With euer, the extra -e- often disappears before another ending: euer Vater, but eure Mutter, euren Bruder.",
     ],
-    learningTip: "First ask who owns the thing. Then match the noun after it for gender and number. After that, check whether the sentence changes the case ending.",
+    learningTip:
+      "First ask who owns the thing. Then match the noun after it for gender and number. After that, check whether the sentence changes the case ending.",
   },
   {
     id: "a1-man",
     kingdomId: "pronouns",
     countryId: "man-pronoun",
     title: "man",
-    description: "Learn how German uses man for general statements about people.",
+    description:
+      "Learn how German uses man for general statements about people.",
     difficulty: "A1",
     sortOrder: 3,
     grammarRuleTitle: "man means people in general, not a specific person.",
-    grammarRuleSummary: "It is used for general facts, habits, advice, and things people usually do.",
+    grammarRuleSummary:
+      "It is used for general facts, habits, advice, and things people usually do.",
     grammarRuleExamples: [
-      { article: "man", label: "general subject", example: "Man lernt mit Übung." },
+      {
+        article: "man",
+        label: "general subject",
+        example: "Man lernt mit Übung.",
+      },
       { article: "man", label: "advice", example: "Man soll viel lesen." },
-      { article: "man", label: "habit", example: "In Berlin sagt man das oft." },
-      { article: "man", label: "rule or possibility", example: "Hier darf man nicht rauchen." },
+      {
+        article: "man",
+        label: "habit",
+        example: "In Berlin sagt man das oft.",
+      },
+      {
+        article: "man",
+        label: "rule or possibility",
+        example: "Hier darf man nicht rauchen.",
+      },
     ],
     grammarNotes: [
       "man is an indefinite personal pronoun. It does not mean one man. It means people in general, someone, or you in a general sense.",
@@ -241,7 +384,8 @@ export const mockLessons: Lesson[] = [
       "Do not confuse man with Mann. Mann is a noun and means an adult male person. man is a pronoun and is written with a small m.",
       "In English, man is often translated as people, you, one, or they, depending on the situation.",
     ],
-    learningTip: "Even though it looks like Mann, man is a pronoun and is used differently.",
+    learningTip:
+      "Even though it looks like Mann, man is a pronoun and is used differently.",
   },
   {
     id: "a1-es",
@@ -252,12 +396,17 @@ export const mockLessons: Lesson[] = [
     difficulty: "A1",
     sortOrder: 4,
     grammarRuleTitle: "es has several jobs in German.",
-    grammarRuleSummary: "It can mean it, act as an impersonal subject, describe weather and time, or appear in fixed expressions.",
+    grammarRuleSummary:
+      "It can mean it, act as an impersonal subject, describe weather and time, or appear in fixed expressions.",
     grammarRuleExamples: [
       { article: "es", label: "weather", example: "Es regnet." },
       { article: "es", label: "object", example: "Ich sehe es." },
       { article: "es", label: "placeholder", example: "Es ist spät." },
-      { article: "es", label: "fixed phrase", example: "Es gibt hier ein Café." },
+      {
+        article: "es",
+        label: "fixed phrase",
+        example: "Es gibt hier ein Café.",
+      },
     ],
     grammarNotes: [
       "Use es with weather and natural events: Es regnet. Es schneit. Es donnert.",
@@ -267,7 +416,8 @@ export const mockLessons: Lesson[] = [
       "Sometimes es is only a grammatical subject and is not translated word for word. German needs it to build the sentence.",
       "Do not confuse es with man. es is for impersonal situations, weather, time, or a neuter thing. man means people in general.",
     ],
-    learningTip: "Ask what es is doing: does it stand for a thing, or is it only there because German needs a subject like in Es regnet or Es ist spät?",
+    learningTip:
+      "Ask what es is doing: does it stand for a thing, or is it only there because German needs a subject like in Es regnet or Es ist spät?",
   },
   {
     id: "a1-prepositions-dative",
@@ -278,17 +428,30 @@ export const mockLessons: Lesson[] = [
     difficulty: "A1",
     sortOrder: 1,
     grammarRuleTitle: "Some prepositions always take the dative.",
-    grammarRuleSummary: "The article form changes because the preposition controls the case.",
+    grammarRuleSummary:
+      "The article form changes because the preposition controls the case.",
     grammarRuleExamples: [
-      { article: "aus", label: "out of, from, made of", example: "aus dem Haus" },
-      { article: "außer", label: "except for", example: "außer meiner Schwester" },
+      {
+        article: "aus",
+        label: "out of, from, made of",
+        example: "aus dem Haus",
+      },
+      {
+        article: "außer",
+        label: "except for",
+        example: "außer meiner Schwester",
+      },
       { article: "mit", label: "with", example: "mit dem Freund" },
       { article: "bei", label: "at or with", example: "bei der Arbeit" },
       { article: "nach", label: "to or after", example: "nach dem Essen" },
       { article: "seit", label: "since, for", example: "seit einem Jahr" },
       { article: "von", label: "from or of", example: "von der Schule" },
       { article: "zu", label: "to", example: "zu den Großeltern" },
-      { article: "gegenüber", label: "opposite", example: "der Post gegenüber" },
+      {
+        article: "gegenüber",
+        label: "opposite",
+        example: "der Post gegenüber",
+      },
       { article: "entgegen", label: "toward", example: "der Mutter entgegen" },
     ],
     grammarNotes: [
@@ -300,14 +463,16 @@ export const mockLessons: Lesson[] = [
       "Use bei for being at someone's place or near something: bei dem Onkel, bei der Post.",
       "Use mit for with, nach for after or to some places, seit for since or for a period up to now, von for from or of, and zu for to a person or place.",
     ],
-    learningTip: "Learn each preposition together with a short chunk: mit dem Freund, bei der Familie, nach dem Essen, seit einem Jahr.",
+    learningTip:
+      "Learn each preposition together with a short chunk: mit dem Freund, bei der Familie, nach dem Essen, seit einem Jahr.",
   },
   {
     id: "a1-prepositions-accusative",
     kingdomId: "prepositions",
     countryId: "prepositions-accusative",
     title: "Prepositions with the Accusative",
-    description: "Learn the main prepositions that always require the accusative in everyday German.",
+    description:
+      "Learn the main prepositions that always require the accusative in everyday German.",
     difficulty: "A1",
     sortOrder: 2,
     grammarRuleTitle: "Some prepositions always take the accusative.",
@@ -315,11 +480,27 @@ export const mockLessons: Lesson[] = [
       "After these prepositions, the noun or pronoun must be in the accusative form, even when the meaning changes.",
     grammarRuleExamples: [
       { article: "durch", label: "through, along", example: "durch die Stadt" },
-      { article: "für", label: "for, for a price, for a time", example: "für meine Mutter, für 20 Euro" },
+      {
+        article: "für",
+        label: "for, for a price, for a time",
+        example: "für meine Mutter, für 20 Euro",
+      },
       { article: "ohne", label: "without", example: "ohne den Schlüssel" },
-      { article: "um", label: "around, by, around a corner", example: "um den Tisch, um 5 Euro" },
-      { article: "gegen", label: "against, around a time", example: "gegen den Plan, gegen 10 Uhr" },
-      { article: "bis", label: "until, up to", example: "bis Ende Mai, bis zum Abend" },
+      {
+        article: "um",
+        label: "around, by, around a corner",
+        example: "um den Tisch, um 5 Euro",
+      },
+      {
+        article: "gegen",
+        label: "against, around a time",
+        example: "gegen den Plan, gegen 10 Uhr",
+      },
+      {
+        article: "bis",
+        label: "until, up to",
+        example: "bis Ende Mai, bis zum Abend",
+      },
       { article: "entlang", label: "along", example: "die Straße entlang" },
     ],
     grammarNotes: [
@@ -342,22 +523,51 @@ export const mockLessons: Lesson[] = [
     kingdomId: "prepositions",
     countryId: "prepositions-genitive",
     title: "Prepositions with the Genitive",
-    description: "Learn the main prepositions that require the genitive in structured written German.",
+    description:
+      "Learn the main prepositions that require the genitive in structured written German.",
     difficulty: "A1",
     sortOrder: 3,
     grammarRuleTitle: "A few prepositions use the genitive.",
     grammarRuleSummary:
       "These prepositions are common in formal German and always need a genitive noun phrase after them.",
     grammarRuleExamples: [
-      { article: "unweit", label: "not far from", example: "unweit unseres Hauses" },
+      {
+        article: "unweit",
+        label: "not far from",
+        example: "unweit unseres Hauses",
+      },
       { article: "während", label: "during", example: "während der Stunde" },
-      { article: "wegen", label: "because of, for the sake of", example: "wegen der Krankheit" },
-      { article: "(an)statt", label: "instead of", example: "statt des Kleides" },
+      {
+        article: "wegen",
+        label: "because of, for the sake of",
+        example: "wegen der Krankheit",
+      },
+      {
+        article: "(an)statt",
+        label: "instead of",
+        example: "statt des Kleides",
+      },
       { article: "trotz", label: "despite", example: "trotz der Müdigkeit" },
-      { article: "ungeachtet", label: "in spite of", example: "ungeachtet des Regens" },
-      { article: "infolge", label: "as a result of", example: "infolge der Krankheit" },
-      { article: "innerhalb", label: "inside, within", example: "innerhalb der Stadt, innerhalb des Monats" },
-      { article: "außerhalb", label: "outside", example: "außerhalb der Stadt" },
+      {
+        article: "ungeachtet",
+        label: "in spite of",
+        example: "ungeachtet des Regens",
+      },
+      {
+        article: "infolge",
+        label: "as a result of",
+        example: "infolge der Krankheit",
+      },
+      {
+        article: "innerhalb",
+        label: "inside, within",
+        example: "innerhalb der Stadt, innerhalb des Monats",
+      },
+      {
+        article: "außerhalb",
+        label: "outside",
+        example: "außerhalb der Stadt",
+      },
     ],
     grammarNotes: [
       "Core genitive prepositions in this chapter: unweit, während, wegen, statt, trotz, ungeachtet, infolge, innerhalb, außerhalb.",
@@ -380,22 +590,60 @@ export const mockLessons: Lesson[] = [
     kingdomId: "prepositions",
     countryId: "two-way-prepositions",
     title: "Two-Way Prepositions",
-    description: "Learn prepositions that use the accusative for direction and the dative for place or time.",
+    description:
+      "Learn prepositions that use the accusative for direction and the dative for place or time.",
     difficulty: "A1",
     sortOrder: 4,
-    grammarRuleTitle: "Two-way prepositions change case based on movement or location.",
+    grammarRuleTitle:
+      "Two-way prepositions change case based on movement or location.",
     grammarRuleSummary:
       "Ask Wohin? for movement to a place: use the accusative. Ask Wo? or Wann? for place or time: use the dative.",
     grammarRuleExamples: [
-      { article: "an", label: "to a vertical surface / at", example: "an die Wand / an der Wand" },
-      { article: "auf", label: "onto / on", example: "auf den Tisch / auf dem Tisch" },
-      { article: "in", label: "into / in", example: "in den Garten / im Garten" },
-      { article: "über", label: "over / above / about", example: "über den Tisch / über dem Tisch" },
-      { article: "unter", label: "under / among", example: "unter den Baum / unter dem Baum" },
-      { article: "vor", label: "in front of / before", example: "vor das Haus / vor dem Haus" },
-      { article: "hinter", label: "behind", example: "hinter die Tür / hinter der Tür" },
-      { article: "neben", label: "next to", example: "neben den Freund / neben dem Freund" },
-      { article: "zwischen", label: "between", example: "zwischen die Mädchen / zwischen den Mädchen" },
+      {
+        article: "an",
+        label: "to a vertical surface / at",
+        example: "an die Wand / an der Wand",
+      },
+      {
+        article: "auf",
+        label: "onto / on",
+        example: "auf den Tisch / auf dem Tisch",
+      },
+      {
+        article: "in",
+        label: "into / in",
+        example: "in den Garten / im Garten",
+      },
+      {
+        article: "über",
+        label: "over / above / about",
+        example: "über den Tisch / über dem Tisch",
+      },
+      {
+        article: "unter",
+        label: "under / among",
+        example: "unter den Baum / unter dem Baum",
+      },
+      {
+        article: "vor",
+        label: "in front of / before",
+        example: "vor das Haus / vor dem Haus",
+      },
+      {
+        article: "hinter",
+        label: "behind",
+        example: "hinter die Tür / hinter der Tür",
+      },
+      {
+        article: "neben",
+        label: "next to",
+        example: "neben den Freund / neben dem Freund",
+      },
+      {
+        article: "zwischen",
+        label: "between",
+        example: "zwischen die Mädchen / zwischen den Mädchen",
+      },
     ],
     grammarNotes: [
       "Core two-way prepositions in this chapter: an, auf, hinter, neben, in, über, unter, zwischen, vor.",
@@ -417,7 +665,8 @@ export const mockLessons: Lesson[] = [
     kingdomId: "adjectives",
     countryId: "degrees-of-comparison",
     title: "Degrees of Comparison",
-    description: "Compare people and things using basic adjective comparison forms.",
+    description:
+      "Compare people and things using basic adjective comparison forms.",
     difficulty: "A1",
     sortOrder: 1,
     grammarRuleTitle: "German adjectives have three comparison levels.",
@@ -425,17 +674,61 @@ export const mockLessons: Lesson[] = [
       "Use the positive form for a simple description, the comparative with als for comparing two things, and the superlative for the highest level.",
     grammarRuleExamples: [
       { article: "klein", label: "base form", example: "klein" },
-      { article: "klein + er", label: "comparative scheme", example: "kleiner" },
-      { article: "am + klein + sten", label: "superlative scheme", example: "am kleinsten" },
-      { article: "das + klein + ste", label: "superlative before a noun", example: "das kleinste Buch" },
-      { article: "alt → älter", label: "umlaut change", example: "am ältesten" },
-      { article: "jung → jünger", label: "umlaut change", example: "am jüngsten" },
-      { article: "gut → besser", label: "important exception", example: "am besten" },
-      { article: "hoch → höher", label: "important exception", example: "am höchsten" },
-      { article: "nah → näher", label: "important exception", example: "am nächsten" },
-      { article: "gern → lieber", label: "important exception", example: "am liebsten" },
-      { article: "so groß wie", label: "equal comparison", example: "so groß wie" },
-      { article: "größer als", label: "comparative sentence pattern", example: "größer als" },
+      {
+        article: "klein + er",
+        label: "comparative scheme",
+        example: "kleiner",
+      },
+      {
+        article: "am + klein + sten",
+        label: "superlative scheme",
+        example: "am kleinsten",
+      },
+      {
+        article: "das + klein + ste",
+        label: "superlative before a noun",
+        example: "das kleinste Buch",
+      },
+      {
+        article: "alt → älter",
+        label: "umlaut change",
+        example: "am ältesten",
+      },
+      {
+        article: "jung → jünger",
+        label: "umlaut change",
+        example: "am jüngsten",
+      },
+      {
+        article: "gut → besser",
+        label: "important exception",
+        example: "am besten",
+      },
+      {
+        article: "hoch → höher",
+        label: "important exception",
+        example: "am höchsten",
+      },
+      {
+        article: "nah → näher",
+        label: "important exception",
+        example: "am nächsten",
+      },
+      {
+        article: "gern → lieber",
+        label: "important exception",
+        example: "am liebsten",
+      },
+      {
+        article: "so groß wie",
+        label: "equal comparison",
+        example: "so groß wie",
+      },
+      {
+        article: "größer als",
+        label: "comparative sentence pattern",
+        example: "größer als",
+      },
     ],
     grammarNotes: [
       "German adjectives have three forms: positive (schön), comparative (schöner), and superlative (am schönsten / das schönste).",
@@ -461,7 +754,8 @@ export const mockLessons: Lesson[] = [
     difficulty: "A1",
     sortOrder: 1,
     grammarRuleTitle: "Weak verbs follow regular present-tense patterns.",
-    grammarRuleSummary: "Most regular verbs keep the same stem and only add personal endings in the present tense.",
+    grammarRuleSummary:
+      "Most regular verbs keep the same stem and only add personal endings in the present tense.",
     grammarRuleExamples: [
       { article: "lern + e", label: "ich form", example: "ich lerne" },
       { article: "lern + st", label: "du form", example: "du lernst" },
@@ -477,7 +771,8 @@ export const mockLessons: Lesson[] = [
       "If the stem ends in -s, -ss, -ß, -z, or -tz, the du form usually takes only -t: heißen -> du heißt, tanzen -> du tanzt.",
       "Common weak verbs are lernen, machen, spielen, arbeiten, wohnen, kaufen, fragen, and antworten.",
     ],
-    learningTip: "Practice one verb across all subjects to see the ending pattern clearly.",
+    learningTip:
+      "Practice one verb across all subjects to see the ending pattern clearly.",
   },
   {
     id: "a1-present-irregular-verbs",
@@ -488,7 +783,8 @@ export const mockLessons: Lesson[] = [
     difficulty: "A1",
     sortOrder: 2,
     grammarRuleTitle: "Some frequent verbs do not follow the regular pattern.",
-    grammarRuleSummary: "Very common verbs like sein, haben, werden, and tun need to be learned as complete forms.",
+    grammarRuleSummary:
+      "Very common verbs like sein, haben, werden, and tun need to be learned as complete forms.",
     grammarRuleExamples: [
       { article: "sein", label: "1st person singular", example: "ich bin" },
       { article: "haben", label: "2nd person singular", example: "du hast" },
@@ -505,7 +801,8 @@ export const mockLessons: Lesson[] = [
       "tun: ich tue, du tust, er/sie/es tut, wir tun, ihr tut, sie/Sie tun.",
       "These verbs are used all the time, so short daily repetition is more useful than long lists.",
     ],
-    learningTip: "These verbs are very common, so early repetition helps a lot.",
+    learningTip:
+      "These verbs are very common, so early repetition helps a lot.",
   },
   {
     id: "a1-present-strong-verbs",
@@ -515,8 +812,10 @@ export const mockLessons: Lesson[] = [
     description: "Learn stem-changing strong verbs in the present tense.",
     difficulty: "A1",
     sortOrder: 3,
-    grammarRuleTitle: "Some strong verbs change their stem in the present tense.",
-    grammarRuleSummary: "The stem vowel usually changes only in the du and er/sie/es forms.",
+    grammarRuleTitle:
+      "Some strong verbs change their stem in the present tense.",
+    grammarRuleSummary:
+      "The stem vowel usually changes only in the du and er/sie/es forms.",
     grammarRuleExamples: [
       { article: "geben", label: "e -> i", example: "du gibst" },
       { article: "lesen", label: "e -> ie", example: "er liest" },
@@ -540,16 +839,22 @@ export const mockLessons: Lesson[] = [
     kingdomId: "verbs",
     countryId: "present-modal-verbs",
     title: "Present Tense: Modal Verbs",
-    description: "Use modal verbs to express ability, permission, and necessity.",
+    description:
+      "Use modal verbs to express ability, permission, and necessity.",
     difficulty: "A1",
     sortOrder: 4,
     grammarRuleTitle: "Modal verbs change the meaning of another verb.",
-    grammarRuleSummary: "They express ability, permission, necessity, advice, or wishes and usually send the main verb to the end.",
+    grammarRuleSummary:
+      "They express ability, permission, necessity, advice, or wishes and usually send the main verb to the end.",
     grammarRuleExamples: [
       { article: "können", label: "ability", example: "Ich kann kommen." },
       { article: "müssen", label: "necessity", example: "Wir müssen lernen." },
       { article: "dürfen", label: "permission", example: "Du darfst fragen." },
-      { article: "sollen", label: "advice / task", example: "Ihr sollt warten." },
+      {
+        article: "sollen",
+        label: "advice / task",
+        example: "Ihr sollt warten.",
+      },
       { article: "wollen", label: "wish", example: "Sie will gehen." },
       { article: "mögen", label: "liking", example: "Er mag Tee." },
     ],
@@ -561,7 +866,8 @@ export const mockLessons: Lesson[] = [
       "Modal verbs are part of the preterite-present group, so their present forms are older and often look irregular.",
       "Learn them in sentence pairs: Ich darf gehen. / Ich darf nicht gehen. That makes the meaning easier to remember.",
     ],
-    learningTip: "Practice modal verbs in short sentence pairs with an infinitive at the end.",
+    learningTip:
+      "Practice modal verbs in short sentence pairs with an infinitive at the end.",
   },
   {
     id: "a1-simple-past",
@@ -571,30 +877,39 @@ export const mockLessons: Lesson[] = [
     description: "Get started with the simple past in common German contexts.",
     difficulty: "A1",
     sortOrder: 5,
-    grammarRuleTitle: "The simple past is common in writing and with some everyday verbs.",
-    grammarRuleSummary: "Beginners often first meet it with sein, haben, and modal verbs.",
+    grammarRuleTitle:
+      "The simple past is common in writing and with some everyday verbs.",
+    grammarRuleSummary:
+      "Beginners often first meet it with sein, haben, and modal verbs.",
     grammarRuleExamples: [
       { article: "war", label: "sein", example: "Ich war müde." },
       { article: "hatte", label: "haben", example: "Sie hatte Zeit." },
       { article: "konnte", label: "können", example: "Er konnte helfen." },
     ],
-    learningTip: "Learn a few high-frequency forms first before trying many verb families.",
+    learningTip:
+      "Learn a few high-frequency forms first before trying many verb families.",
   },
   {
     id: "a1-present-perfect",
     kingdomId: "verbs",
     countryId: "present-perfect",
     title: "Present Perfect",
-    description: "Form the present perfect with haben or sein plus a past participle.",
+    description:
+      "Form the present perfect with haben or sein plus a past participle.",
     difficulty: "A1",
     sortOrder: 6,
     grammarRuleTitle: "The present perfect is very common in spoken German.",
     grammarRuleSummary: "It uses a helper verb and a past participle.",
     grammarRuleExamples: [
       { article: "haben", label: "helper verb", example: "Ich habe gelernt." },
-      { article: "sein", label: "movement or change", example: "Er ist gekommen." },
+      {
+        article: "sein",
+        label: "movement or change",
+        example: "Er ist gekommen.",
+      },
       { article: "Partizip II", label: "past participle", example: "gespielt" },
     ],
-    learningTip: "When learning a verb, try to learn its helper verb and participle too.",
+    learningTip:
+      "When learning a verb, try to learn its helper verb and participle too.",
   },
 ];

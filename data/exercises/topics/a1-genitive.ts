@@ -2,200 +2,180 @@ import type { Exercise } from "@/types";
 
 export const a1_genitive: Exercise[] = [
   {
-    "id": "ex-501",
-    "lessonId": "a1-genitive",
-    "type": "article-choice",
-    "prompt": "Choose the correct genitive article.",
-    "noun": "das Buch ___ Lehrers",
-    "options": [
-      "des",
-      "dem",
-      "den"
-    ],
-    "correctAnswer": "des",
-    "hint": "Lehrer is masculine, and the phrase shows belonging.",
-    "explanation": "Masculine singular usually takes des in the genitive: das Buch des Lehrers.",
-    "difficulty": "A1"
+    id: "ex-501",
+    lessonId: "a1-genitive",
+    type: "article-choice",
+    prompt: "Choose the correct genitive article.",
+    noun: "das Zimmer ___ Bruders",
+    options: ["des", "dem", "den"],
+    correctAnswer: "des",
+    hint: "Bruder is masculine. Masculine singular uses des in the genitive.",
+    explanation:
+      "The room belongs to the brother. Masculine singular uses des, and Bruder takes -s: das Zimmer des Bruders.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-502",
-    "lessonId": "a1-genitive",
-    "type": "article-choice",
-    "prompt": "Choose the correct genitive article.",
-    "noun": "die Tasche ___ Frau",
-    "options": [
-      "der",
-      "die",
-      "des"
-    ],
-    "correctAnswer": "der",
-    "hint": "Frau is feminine, so the genitive article is different from masculine.",
-    "explanation": "Feminine nouns use der in the genitive: die Tasche der Frau.",
-    "difficulty": "A1"
+    id: "ex-502",
+    lessonId: "a1-genitive",
+    type: "article-choice",
+    prompt: "Choose the correct genitive article.",
+    noun: "die Tasche ___ Frau",
+    options: ["der", "die", "des"],
+    correctAnswer: "der",
+    hint: "Frau is feminine. Feminine nouns use der in the genitive.",
+    explanation:
+      "The bag belongs to the woman. Feminine nouns use der in the genitive: die Tasche der Frau.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-503",
-    "lessonId": "a1-genitive",
-    "type": "article-choice",
-    "prompt": "Choose the correct genitive article.",
-    "noun": "das Fenster ___ Hauses",
-    "options": [
-      "des",
-      "dem",
-      "der"
-    ],
-    "correctAnswer": "des",
-    "hint": "Haus is neuter, and neuter singular takes the same genitive article as masculine.",
-    "explanation": "Neuter singular uses des in the genitive: das Fenster des Hauses.",
-    "difficulty": "A1"
+    id: "ex-503",
+    lessonId: "a1-genitive",
+    type: "article-choice",
+    prompt: "Choose the correct genitive article.",
+    noun: "das Fenster ___ Hauses",
+    options: ["des", "dem", "der"],
+    correctAnswer: "des",
+    hint: "Haus is neuter. Neuter singular uses des in the genitive.",
+    explanation:
+      "The window belongs to the house. Neuter singular uses des, and Haus becomes Hauses: das Fenster des Hauses.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-504",
-    "lessonId": "a1-genitive",
-    "type": "article-choice",
-    "prompt": "Choose the correct genitive article.",
-    "noun": "die Bücher ___ Kinder",
-    "options": [
-      "der",
-      "des",
-      "den"
-    ],
-    "correctAnswer": "der",
-    "hint": "Kinder is plural here.",
-    "explanation": "Plural nouns use der in the genitive: die Bücher der Kinder.",
-    "difficulty": "A1"
+    id: "ex-504",
+    lessonId: "a1-genitive",
+    type: "article-choice",
+    prompt: "Choose the correct genitive article.",
+    noun: "die Bücher ___ Kinder",
+    options: ["der", "den", "des"],
+    correctAnswer: "der",
+    hint: "Kinder is plural. Plural nouns use der in the genitive.",
+    explanation:
+      "The books belong to the children. Plural genitive uses der: die Bücher der Kinder.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-505",
-    "lessonId": "a1-genitive",
-    "type": "phrase-choice",
-    "prompt": "Choose the genitive phrase that shows belonging.",
-    "noun": "Heft, Schüler",
-    "supportText": "Build a noun phrase like in a book exercise.",
-    "options": [
+    id: "ex-505",
+    lessonId: "a1-genitive",
+    type: "phrase-choice",
+    prompt: "Choose the correct genitive phrase.",
+    noun: "Heft, Schüler",
+    supportText: "Build a phrase that means: the student's notebook.",
+    options: [
       "das Heft des Schülers",
       "das Heft dem Schüler",
-      "das Heft den Schüler"
+      "das Heft den Schüler",
     ],
-    "correctAnswer": "das Heft des Schülers",
-    "hint": "The notebook belongs to the student.",
-    "explanation": "The correct genitive group is das Heft des Schülers.",
-    "difficulty": "A1"
+    correctAnswer: "das Heft des Schülers",
+    hint: "The notebook belongs to the student.",
+    explanation:
+      "To show possession, we use the genitive: das Heft des Schülers.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-506",
-    "lessonId": "a1-genitive",
-    "type": "phrase-choice",
-    "prompt": "Choose the sentence that correctly rewrites the idea with the genitive.",
-    "noun": "Der Onkel hat ein Auto.",
-    "supportText": "Turn it into: This is ...",
-    "options": [
-      "Das ist das Auto des Onkels.",
-      "Das ist dem Onkel das Auto.",
-      "Das ist das Auto den Onkel."
+    id: "ex-506",
+    lessonId: "a1-genitive",
+    type: "phrase-choice",
+    prompt: "Choose the correct genitive phrase.",
+    noun: "Auto, Onkel",
+    supportText: "Build a phrase that means: the uncle's car.",
+    options: [
+      "das Auto des Onkels",
+      "das Auto dem Onkel",
+      "das Auto den Onkel",
     ],
-    "correctAnswer": "Das ist das Auto des Onkels.",
-    "hint": "You need a genitive phrase showing whose car it is.",
-    "explanation": "The correct sentence is Das ist das Auto des Onkels.",
-    "difficulty": "A1"
+    correctAnswer: "das Auto des Onkels",
+    hint: "Onkel is masculine. Use des + noun ending.",
+    explanation:
+      "Masculine singular uses des in the genitive, and Onkel takes -s: das Auto des Onkels.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-507",
-    "lessonId": "a1-genitive",
-    "type": "question-word",
-    "prompt": "Choose the correct question word for the genitive.",
-    "noun": "___ Hund ist im Garten?",
-    "options": [
-      "Wessen",
-      "Wem",
-      "Wen"
+    id: "ex-507",
+    lessonId: "a1-genitive",
+    type: "phrase-choice",
+    prompt: "Choose the correct genitive phrase.",
+    noun: "Kleid, Kusine",
+    supportText: "Build a phrase that means: the cousin's dress.",
+    options: [
+      "das Kleid der Kusine",
+      "das Kleid die Kusine",
+      "das Kleid des Kusine",
     ],
-    "correctAnswer": "Wessen",
-    "hint": "The question asks about possession.",
-    "explanation": "Use Wessen? to ask whose something is.",
-    "difficulty": "A1"
+    correctAnswer: "das Kleid der Kusine",
+    hint: "Kusine is feminine. Feminine nouns use der in the genitive.",
+    explanation:
+      "For feminine nouns, the genitive article is der: das Kleid der Kusine.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-508",
-    "lessonId": "a1-genitive",
-    "type": "question-word",
-    "prompt": "Choose the correct question word for the genitive.",
-    "noun": "___ Adresse schreibt sie auf?",
-    "options": [
-      "Wessen",
-      "Wer",
-      "Wem"
+    id: "ex-508",
+    lessonId: "a1-genitive",
+    type: "phrase-choice",
+    prompt: "Choose the correct genitive phrase.",
+    noun: "Geburtstag, Sohn",
+    supportText: "Build a phrase that means: the son's birthday.",
+    options: [
+      "der Geburtstag des Sohnes",
+      "der Geburtstag dem Sohn",
+      "der Geburtstag den Sohn",
     ],
-    "correctAnswer": "Wessen",
-    "hint": "The sentence asks whose address it is.",
-    "explanation": "Use Wessen? because the question is about belonging.",
-    "difficulty": "A1"
+    correctAnswer: "der Geburtstag des Sohnes",
+    hint: "Sohn is masculine. In genitive, it becomes des Sohnes.",
+    explanation:
+      "Masculine singular uses des, and Sohn often becomes Sohnes: der Geburtstag des Sohnes.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-509",
-    "lessonId": "a1-genitive",
-    "type": "case-form",
-    "prompt": "Choose the correct weak noun form in the genitive.",
-    "noun": "die Mappe ___ Studenten",
-    "options": [
-      "des",
-      "dem",
-      "den"
-    ],
-    "correctAnswer": "des",
-    "hint": "Student is a weak masculine noun, and the whole phrase is genitive.",
-    "explanation": "Weak masculine nouns keep -en in the genitive: die Mappe des Studenten.",
-    "difficulty": "A1"
+    id: "ex-509",
+    lessonId: "a1-genitive",
+    type: "question-word",
+    prompt: "Choose the correct question word for the genitive.",
+    noun: "___ Hund ist im Garten?",
+    options: ["Wessen", "Wem", "Wen"],
+    correctAnswer: "Wessen",
+    hint: "The question asks whose dog it is.",
+    explanation:
+      "Use Wessen? when asking about possession: Wessen Hund ist im Garten?",
+    difficulty: "A1",
   },
   {
-    "id": "ex-510",
-    "lessonId": "a1-genitive",
-    "type": "ending-choice",
-    "prompt": "Choose the missing ending for the masculine genitive noun.",
-    "noun": "das Zimmer des Bruder__",
-    "options": [
-      "s",
-      "es",
-      "n"
-    ],
-    "correctAnswer": "s",
-    "hint": "Bruder usually adds -s in the genitive singular.",
-    "explanation": "The correct form is des Bruders.",
-    "difficulty": "A1"
+    id: "ex-510",
+    lessonId: "a1-genitive",
+    type: "question-word",
+    prompt: "Choose the correct question word for the genitive.",
+    noun: "___ Adresse schreibt sie auf?",
+    options: ["Wessen", "Wer", "Wem"],
+    correctAnswer: "Wessen",
+    hint: "The question asks whose address it is.",
+    explanation:
+      "The question is about possession, so we use Wessen?: Wessen Adresse schreibt sie auf?",
+    difficulty: "A1",
   },
   {
-    "id": "ex-511",
-    "lessonId": "a1-genitive",
-    "type": "ending-choice",
-    "prompt": "Choose the missing ending for the neuter genitive noun.",
-    "noun": "die Tür des Haus__",
-    "options": [
-      "es",
-      "s",
-      "en"
-    ],
-    "correctAnswer": "es",
-    "hint": "Haus usually takes -es in the genitive singular.",
-    "explanation": "The correct genitive form is des Hauses.",
-    "difficulty": "A1"
+    id: "ex-511",
+    lessonId: "a1-genitive",
+    type: "ending-choice",
+    prompt: "Choose the missing genitive ending.",
+    noun: "das Zimmer des Bruder__",
+    options: ["s", "n", "en"],
+    correctAnswer: "s",
+    hint: "Bruder usually adds -s in the genitive.",
+    explanation:
+      "The correct genitive form is des Bruders: das Zimmer des Bruders.",
+    difficulty: "A1",
   },
   {
-    "id": "ex-512",
-    "lessonId": "a1-genitive",
-    "type": "case-form",
-    "prompt": "Choose the full genitive phrase that fits the sentence.",
-    "noun": "Er versteht die Bedeutung ___ nicht.",
-    "supportText": "The noun is Wörter, and the sentence means several words.",
-    "options": [
-      "der Wörter",
-      "den Wörtern",
-      "des Wortes"
-    ],
-    "correctAnswer": "der Wörter",
-    "hint": "The sentence is about several words, and plural genitive uses der.",
-    "explanation": "Because the meaning belongs to several words, the correct phrase is die Bedeutung der Wörter.",
-    "difficulty": "A1"
-  }
+    id: "ex-512",
+    lessonId: "a1-genitive",
+    type: "ending-choice",
+    prompt: "Choose the missing genitive ending.",
+    noun: "die Tür des Haus__",
+    options: ["es", "s", "en"],
+    correctAnswer: "es",
+    hint: "Haus often takes -es in the genitive.",
+    explanation: "The correct genitive form is des Hauses: die Tür des Hauses.",
+    difficulty: "A1",
+  },
 ] as Exercise[];
 
 export default a1_genitive;
